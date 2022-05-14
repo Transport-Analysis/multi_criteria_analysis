@@ -54,10 +54,10 @@ with st.expander("Define Options", expanded=True):
     while True:
         col1, col2 = st.columns(2)
         with col1:
-            options.append(st.text_input('What is option %i?' % i, 'End the list'))
+            options.append(st.text_input('What is option %i?' % i, 'Add new option'))
         with col2:
-            options[-1] = (options[-1], st.text_area('option %i description' % i, 'End the list'))
-        if 'End the list' in options[-1]:
+            options[-1] = (options[-1], st.text_area('option %i description' % i, 'Add new option'))
+        if 'Add new option' in options[-1]:
             break
         i += 1
     options = options[:-1]
