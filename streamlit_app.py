@@ -46,7 +46,7 @@ ProjectDescription = ProjectDescription[['Category', 'answers']]
 # TODO
 
 # Define options section
-with st.expander("Define Options"):
+with st.expander("Define Options", expanded=True):
     st.button(label="Help", key=2, help=None, on_click=None, args=None, kwargs=None, disabled=False)
     options = []
     st.write('Clearly define the short-listed options identified to achieve the outcomes sought.')
@@ -63,7 +63,7 @@ with st.expander("Define Options"):
     options = options[:-1]
 
 # Criteria
-with st.expander("Criteria"):
+with st.expander("Criteria", expanded=True):
     st.button(label="Help", key=3, help=None, on_click=None, args=None, kwargs=None, disabled=False)
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
     st.dataframe(CriteriaList)
