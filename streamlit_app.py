@@ -1,3 +1,4 @@
+# Import dependencies
 import streamlit as st
 import yaml
 import pandas as pd
@@ -7,6 +8,7 @@ import io
 import xlsxwriter
 
 
+# Import data from input files
 for filename in ('inputs', 'variables'):
     with open('%s.yaml' % filename) as file:
         Inpt_lst = yaml.load(file, Loader=yaml.FullLoader)
@@ -18,12 +20,15 @@ for filename in ('inputs', 'variables'):
                 else:
                     globals()[key]  = globals()[key] .append(db)
             globals()[key] .index = np.arange(1, len(globals()[key])+1)
+           
 
+# Page heading info
 st.write("# Multi-Criteria Analysis Tool")
 st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provides a clear line-of-sight across the Department of Transport and Main Roads' **(TMR)** infrastructure planning and investment process, providing assurance that the Network Optimisation Framework is embedded in our decision-making.
     The MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
 ''')
 
+# Project Description section
 with st.expander("Project Description"):
     st.button(label="Help", key=1, help='Enter Project Description details.', on_click=None, args=None, kwargs=None, disabled=False)
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
@@ -37,6 +42,10 @@ with st.expander("Project Description"):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
+# Review NOF Options
+# TODO
+
+# Define options section
 with st.expander("Define Options"):
     st.button(label="Help", key=2, help=None, on_click=None, args=None, kwargs=None, disabled=False)
     options = []
@@ -53,6 +62,7 @@ with st.expander("Define Options"):
         i += 1
     options = options[:-1]
 
+# Criteria
 with st.expander("Criteria"):
     st.button(label="Help", key=3, help=None, on_click=None, args=None, kwargs=None, disabled=False)
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
@@ -64,6 +74,7 @@ with st.expander("Criteria"):
     SelectedCriteria = SelectedCriteria.iloc[:, :2]
     st.write('### Selected Criteria', SelectedCriteria)
 
+# Ranking
 AvailableRanks = range(1,len(SelectedCriteria) + 1)
 Ranks = []
 Scores = []
@@ -93,6 +104,7 @@ if len(Scores) > 0:
     OverallScore = OverallScore.transpose()
     OverallScore
 
+    # Summary of Option Rankings
     st.write('Summary of Option Rankings:')
     tmp = (-ScoresTotal).argsort()
     FinalRanks = np.empty_like(tmp)
@@ -107,6 +119,7 @@ if len(Scores) > 0:
     OverallRank.sort_values(['Rank'])
     OverallRank
 
+    # Best Option
     st.header('Best Option:')
     st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
     scores_by_criteria = SelectedCriteria.copy()
@@ -120,6 +133,7 @@ if len(Scores) > 0:
     st.write('Base Case is excluded')
     scores_by_category.iloc[:, -1:]
 
+    # Download data
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         for key in ('ProjectDescription', 'scores_by_category', 'OverallScore', 'OverallRank'):
