@@ -56,7 +56,7 @@ with st.expander("Define Options", expanded=True):
         with col1:
             options.append(st.text_input('What is option %i?' % i, 'Add new option'))
         with col2:
-            options[-1] = (options[-1], st.text_area('option %i description' % i, 'Add new option'))
+            options[-1] = (options[-1], st.text_area('Option %i description' % i, 'Add new option'))
         if 'Add new option' in options[-1]:
             break
         i += 1
