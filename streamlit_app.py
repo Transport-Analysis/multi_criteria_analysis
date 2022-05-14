@@ -25,7 +25,7 @@ st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provid
 ''')
 
 with st.expander("Project Description"):
-    st.button(label="Help", key=1, help="Help", on_click=None, args=None, kwargs=None, disabled=False)
+    st.button(label="Help", key=1, help='Enter Project Description details.', on_click=None, args=None, kwargs=None, disabled=False)
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
     answers = []     
     for _, row in ProjectDescription.iterrows():
