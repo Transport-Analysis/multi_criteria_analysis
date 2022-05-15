@@ -25,7 +25,8 @@ st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provid
 ''')
 
 with st.expander("Project Description"):
-    st.button("Help", key=1, help=None, on_click=None, args=None, kwargs=None, disabled=False)
+    if st.button("Help", key=1):
+        st.sidebar.write("Help with Project Description")
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
     answers = []     
     for _, row in ProjectDescription.iterrows():
@@ -38,7 +39,8 @@ with st.expander("Project Description"):
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
 with st.expander("Define Options"):
-    st.button("Help", key=2, help=None, on_click=None, args=None, kwargs=None, disabled=False)
+    if st.button("Help", key=2):
+        st.sidebar.write("Help with Define Options")
     options = []
     st.write('Clearly define the short-listed options identified to achieve the outcomes sought.')
     i = 1
@@ -54,7 +56,8 @@ with st.expander("Define Options"):
     options = options[:-1]
 
 with st.expander("Criteria"):
-    st.button("Help", key=3, help=None, on_click=None, args=None, kwargs=None, disabled=False)
+    if st.button("Help", key=3):
+        st.sidebar.write("Help with Criteria")
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
     st.dataframe(CriteriaList)
     nos_flag = st.checkbox(''' Include NOS Option's criteria''')
