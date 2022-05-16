@@ -7,6 +7,10 @@ import time
 import io
 import xlsxwriter
 
+[theme]
+base="dark"
+primaryColor="purple"
+
 # Page Config #
 st.set_page_config(
     page_title = "MCA Tool",
