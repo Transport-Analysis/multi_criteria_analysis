@@ -45,12 +45,10 @@ with st.expander("Project Description", expanded=True):
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
 #### NOF Options #### 
-"""
-TODO - new section to be added.
-Add a section that asks the General User to complete a preliminary review of the 
-application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
-to determine which option should be included in the rest of the MCA process. 
-"""
+# TODO - new section to be added.
+# Add a section that asks the General User to complete a preliminary review of the 
+# application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
+# to determine which option should be included in the rest of the MCA process. 
 
 #### Define Options #### 
 with st.expander("Define Options", expanded=True):
