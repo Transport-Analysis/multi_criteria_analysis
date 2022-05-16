@@ -22,13 +22,14 @@ for filename in ('inputs', 'variables'):
             globals()[key] .index = np.arange(1, len(globals()[key])+1)
            
 
-# Page heading info
+#### Introduction ####
 st.header("Smarter Solutions")
 st.subheader("Multi-Criteria Analysis (MCA) Tool")
 st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provides a clear line-of-sight across the Department of Transport and Main Roads' **(TMR)** infrastructure planning and investment process, providing assurance that the Network Optimisation Framework is embedded in our decision-making.
     The MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
 ''')
 
+#### Project Description ####
 with st.expander("Project Description", expanded=True):
     if st.button("Help", key=1):
         st.sidebar.write("Help with Project Description")
@@ -43,8 +44,15 @@ with st.expander("Project Description", expanded=True):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
-# Review NOF Options
-# TODO
+#### NOF Options #### 
+"""
+TODO - new section to be added.
+Add a section that asks the General User to complete a preliminary review of the 
+application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
+to determine which option should be included in the rest of the MCA process. 
+"""
+
+#### Define Options #### 
 with st.expander("Define Options", expanded=True):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Define Options")
@@ -62,7 +70,7 @@ with st.expander("Define Options", expanded=True):
         i += 1
     options = options[:-1]
 
-# Criteria
+#### Criteria ####
 with st.expander("Criteria", expanded=True):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
@@ -75,7 +83,8 @@ with st.expander("Criteria", expanded=True):
     SelectedCriteria = SelectedCriteria.iloc[:, :2]
     st.write('### Selected Criteria', SelectedCriteria)
 
-# Ranking
+#### Weightings Ranking ####
+#### Scoring ####
 AvailableRanks = range(1,len(SelectedCriteria) + 1)
 Ranks = []
 Scores = []
@@ -134,6 +143,7 @@ if len(Scores) > 0:
     st.write('Base Case is excluded')
     scores_by_category.iloc[:, -1:]
 
+    #### Functionality to Export Results ####
     # Download data
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
@@ -147,3 +157,7 @@ if len(Scores) > 0:
             file_name="nof-mca-tool.xlsx",
             mime="application/vnd.ms-excel"
         )
+
+        
+#### Sensitivities ####
+# TODO
