@@ -13,6 +13,21 @@ st.set_page_config(
     page_icon = "🚴"
     )
 
+#Set the page max width
+def _max_width_():
+    max_width_str = f"max-width: 1000px;"
+    st.markdown(
+        f"""
+    <style>
+    .appview-container .main .block-container{{
+        {max_width_str}
+    }}
+    </style>    
+    """,
+        unsafe_allow_html=True,
+    )
+_max_width_()
+
 # Import data from input files
 for filename in ('inputs', 'variables'):
     with open('%s.yaml' % filename) as file:
