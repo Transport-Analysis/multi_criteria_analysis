@@ -24,7 +24,7 @@ st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provid
     The MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
 ''')
 
-with st.expander("Project Description"):
+with st.expander("Project Description", expanded=True):
     if st.button("Help", key=1):
         st.sidebar.write("Help with Project Description")
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
@@ -38,7 +38,7 @@ with st.expander("Project Description"):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
-with st.expander("Define Options"):
+with st.expander("Define Options", expanded=True):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Define Options")
     options = []
@@ -55,7 +55,7 @@ with st.expander("Define Options"):
         i += 1
     options = options[:-1]
 
-with st.expander("Criteria"):
+with st.expander("Criteria", expanded=True):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
