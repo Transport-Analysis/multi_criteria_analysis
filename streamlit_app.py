@@ -7,6 +7,11 @@ import time
 import io
 import xlsxwriter
 
+# Page Config #
+st.set_page_config(
+    page_title = "MCA Tool",
+    page_icon = "🚴"
+    )
 
 # Import data from input files
 for filename in ('inputs', 'variables'):
