@@ -1,3 +1,4 @@
+# Import dependencies
 import streamlit as st
 import yaml
 import pandas as pd
@@ -7,6 +8,7 @@ import io
 import xlsxwriter
 
 
+# Import data from input files
 for filename in ('inputs', 'variables'):
     with open('%s.yaml' % filename) as file:
         Inpt_lst = yaml.load(file, Loader=yaml.FullLoader)
@@ -18,8 +20,11 @@ for filename in ('inputs', 'variables'):
                 else:
                     globals()[key]  = globals()[key] .append(db)
             globals()[key] .index = np.arange(1, len(globals()[key])+1)
+           
 
-st.write("# Multi-Criteria Analysis Tool")
+# Page heading info
+st.header("Smarter Solutions")
+st.subheader("Multi-Criteria Analysis (MCA) Tool")
 st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provides a clear line-of-sight across the Department of Transport and Main Roads' **(TMR)** infrastructure planning and investment process, providing assurance that the Network Optimisation Framework is embedded in our decision-making.
     The MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
 ''')
@@ -38,6 +43,8 @@ with st.expander("Project Description", expanded=True):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
+# Review NOF Options
+# TODO
 with st.expander("Define Options", expanded=True):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Define Options")
@@ -47,14 +54,15 @@ with st.expander("Define Options", expanded=True):
     while True:
         col1, col2 = st.columns(2)
         with col1:
-            options.append(st.text_input('What is option %i?' % i, 'End the list'))
+            options.append(st.text_input('What is option %i?' % i, 'Add new option'))
         with col2:
-            options[-1] = (options[-1], st.text_area('option %i description' % i, 'End the list'))
-        if 'End the list' in options[-1]:
+            options[-1] = (options[-1], st.text_area('Option %i description' % i, 'Add new option'))
+        if 'Add new option' in options[-1]:
             break
         i += 1
     options = options[:-1]
 
+# Criteria
 with st.expander("Criteria", expanded=True):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
@@ -67,6 +75,7 @@ with st.expander("Criteria", expanded=True):
     SelectedCriteria = SelectedCriteria.iloc[:, :2]
     st.write('### Selected Criteria', SelectedCriteria)
 
+# Ranking
 AvailableRanks = range(1,len(SelectedCriteria) + 1)
 Ranks = []
 Scores = []
@@ -96,6 +105,7 @@ if len(Scores) > 0:
     OverallScore = OverallScore.transpose()
     OverallScore
 
+    # Summary of Option Rankings
     st.write('Summary of Option Rankings:')
     tmp = (-ScoresTotal).argsort()
     FinalRanks = np.empty_like(tmp)
@@ -110,6 +120,7 @@ if len(Scores) > 0:
     OverallRank.sort_values(['Rank'])
     OverallRank
 
+    # Best Option
     st.header('Best Option:')
     st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
     scores_by_criteria = SelectedCriteria.copy()
@@ -123,6 +134,7 @@ if len(Scores) > 0:
     st.write('Base Case is excluded')
     scores_by_category.iloc[:, -1:]
 
+    # Download data
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         for key in ('ProjectDescription', 'scores_by_category', 'OverallScore', 'OverallRank'):
