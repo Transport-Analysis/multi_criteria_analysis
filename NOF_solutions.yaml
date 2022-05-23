@@ -1,0 +1,37 @@
+NOFsolutions:
+  - Solution: Bus priority lanes    
+    Comment: Bus lanes are roadway lanes dedicated to bus use and servicing priority bus movement along a traffic corridor
+  - Solution: Public transport jump lanes
+    Comment: Public transport jump lanes are dedicated stretch of roadway that provides public transport priority at an intersection approach"
+  - Solution: Transit signal priority
+    Comment: Transit signal priority is the modification of either the operations or the environment for public transport vehicles moving through an intersection
+  - Solution: Park andn ride facilities
+    Comment: Park and ride (PnR) facilities are dedicated parking spaces located at public transport stations alongside public transport interchanges
+  - Solution: Board all doors
+    Comment: Boarding all doors is an operational change that permits passengers to board and discharge buses from both the front and rear doors (and middle doors where applicable)
+  - Solution: HOV lanes
+    Comment: High occupancy vehicle (HOV) lanes are restricted transit lanes dedicated for use by vehicles carrying a specified number of passengers
+  - Solution: Truck restrictions
+    Comment: Truck restrictions designate the lanes in which heavy vehicles may operate, generally restricting heavy vehicles to the left hand lanes of a highway or motorway
+  - Solution: Hard shoulder running
+    Comment: Hard shoulder running (HSR) uses the shoulder lane of a highway or motorway as a traffic lane to create an extra lane, relatively cheaply, at fixed periods where there are known congestion bottlenecks
+  - Solution: Reversible lane
+    Comment: Reversible lanes are used to increase the capacity of road space in response to recurrent and non-recurrent congestion and/or significant tidal flow traffic conditions
+  - Solution: Turning lanes
+    Comment: A turning lane is a short, dedicated section of roadway that facilitates the additional flow of traffic through an intersection, specifically for turning vehicles
+  - Solution: Parking management
+    Comment: Parking management refers to the use of pricing, permits, or time limitations to manage demand for on-street (and sometimes also off-street) parking
+  - Solution: Incident management systems
+    Comment: An incident management system is a dynamic messaging system that provides real-time emergency and incident response information to motorists
+  - Solution: En-route information system
+    Comment: En-route information systems are dynamic messaging systems (DMS) that use changeable message signs to inform motorists of real-time traffic conditions
+  - Solution: Variable speed limits 
+    Comment: Variable speed limits (VSL) are enforced through dynamic speed indicators that adjust to weather and traffic conditions, reducing the speed limit for areas of congestion, accidents or for special events
+  - Solution: Signal optimisation
+    Comment: Signal optimisation is the dynamic coordination of traffic signals to adapt to changing traffic circumstances
+  - Solution: Lane use management system
+    Comment: Lane use management systems (LUMS) are dynamic information systems that specify lane use in response to real-time traffic information
+  - Solution: Ramp metering
+    Comment: Ramp metering uses signals at motorway ramps to regulate the rate and space of traffic entering the motorway
+  - Solution: Education campaigns
+    Comment: Marketing and public education programs increase public awareness and understanding of the impacts and costs of congestion
