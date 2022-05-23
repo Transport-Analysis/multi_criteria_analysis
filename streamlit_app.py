@@ -76,6 +76,10 @@ with st.expander('Import data from previously saved Excel file:'):
         UserInputs = pd.DataFrame(columns=['Criterion','Ranks'])
     UserInputs.set_index('Criterion', inplace=True)
 
+#### NOF Options #### 
+# New section that asks the General User to complete a preliminary review of the 
+# application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
+# to determine which option should be included in the rest of the MCA process. 
 with st.expander("Define Options", expanded=True):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Define Options")
@@ -109,6 +113,7 @@ with st.expander("Define Options", expanded=True):
             break
         else:
             UserInputs[new_option] = [3] * len(UserInputs)
+
 #### Criteria ####
 with st.expander("Criteria", expanded=True):
     if st.button("Help", key=3):
