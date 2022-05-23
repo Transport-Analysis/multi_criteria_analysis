@@ -67,7 +67,7 @@ with st.expander("Project Description", expanded=True):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
-with st.expander('Import data from previously saved Excel file:'):
+with st.expander('Import data from previously saved Excel file:', expanded=True):
     uploaded_project = st.file_uploader('Upload Saved Project',type='xlsx')
     if uploaded_project is not None:
         UserInputs = pd.read_excel (uploaded_project, sheet_name='UserInputs')
