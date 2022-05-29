@@ -4,3 +4,4 @@ streamlit
 pyyaml
 numpy
 xlsxwriter
+openpyxl
