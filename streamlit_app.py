@@ -30,6 +30,23 @@ def _max_width_():
     )
 _max_width_()
 
+#Define Slider Colour
+def slider_colour(slider):
+    ColourMinMax = st.markdown(''' <style> div.stSlider > div[data-baseweb = "slider"] > div[data-testid="stTickBar"] > div {
+    background: rgb(1 1 1 / 0%); } </style>''', unsafe_allow_html = True)
+    Slider_Cursor = st.markdown(''' <style> div.stSlider > div[data-baseweb="slider"] > div > div > div[role="slider"]{  
+    background-color: rgb(120, 120, 120); box-shadow: rgb(120 120 120 / 20%) 0px 0px 0px 0.2rem;} </style>''', unsafe_allow_html = True)
+    Slider_Number = st.markdown(''' <style> div.stSlider > div[data-baseweb="slider"] > div > div > div > div
+    { color: rgb(50, 82, 123); } </style>''', unsafe_allow_html = True)   
+    col = f''' <style> div.stSlider > div[data-baseweb = "slider"] > div > div {{
+    background: linear-gradient(to right,rgb(255, 0, 0) 0%, 
+                            rgb(255, 0, 0) 50%, 
+                            rgb(0, 255, 0) 50%, 
+                            rgb(0, 255, 0) 100%);
+                            }} </style>'''
+    ColourSlider = st.markdown(col, unsafe_allow_html = True)
+    return ColourMinMax, Slider_Cursor, Slider_Number, ColourSlider
+
 # Import data from input files
 for filename in ('inputs', 'variables', 'NOF_solutions'):
     with open('%s.yaml' % filename) as file:
@@ -144,6 +161,7 @@ for Criterion, row in UserInputs.iterrows():
             value = UserInputs.at[Criterion, OptionName]
             key = 'scores_%s_%s' % (Criterion, OptionName)
             UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
+            c1, c2, c3, c4 = slider_colour(value)
     used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
     AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
 
