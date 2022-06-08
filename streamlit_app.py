@@ -7,12 +7,13 @@ import time
 import io
 import xlsxwriter
 import os
-
-
+import matplotlib.pyplot as plt
+import seaborn as sns
+import textwrap
 # Page Config #
 st.set_page_config(
     page_title = "MCA Tool",
-    page_icon = "🚴"
+    page_icon = "??"
     )
 
 #Set the page max width
@@ -39,10 +40,10 @@ def slider_colour(slider):
     Slider_Number = st.markdown(''' <style> div.stSlider > div[data-baseweb="slider"] > div > div > div > div
     { color: rgb(50, 82, 123); } </style>''', unsafe_allow_html = True)   
     col = f''' <style> div.stSlider > div[data-baseweb = "slider"] > div > div {{
-    background: linear-gradient(to right,rgb(255, 0, 0) 0%, 
-                            rgb(255, 0, 0) 50%, 
-                            rgb(0, 255, 0) 50%, 
-                            rgb(0, 255, 0) 100%);
+    background: linear-gradient(to right,rgb(219, 67, 37) 0%, 
+                            rgb(219, 67, 37) 50%, 
+                            rgb(0, 97, 100) 50%, 
+                            rgb(0, 97, 100) 100%);
                             }} </style>'''
     ColourSlider = st.markdown(col, unsafe_allow_html = True)
     return ColourMinMax, Slider_Cursor, Slider_Number, ColourSlider
@@ -108,28 +109,39 @@ with st.expander("Define Options", expanded=True):
         st.subheader('NOF Solution')
     with col3:
         st.subheader('')
-    NOFsolutions = NOFsolutions[NOFsolutions.Solution.apply(lambda x: x not in UserInputs.columns)]
-    for itr, option in NOFsolutions.iterrows():
+    Updated_Input = []
+    for itr, option in NOFsolutions.iterrows():                    
         col1, col2, col3 = st.columns(3)
-        with col1:
-            chck = st.checkbox('', key='NOFsolutions_ch%s' % itr)
+        if option.Solution in UserInputs.columns:
+            with col1:
+                chck = st.checkbox('', key='NOFsolutions_ch%s' % itr, value=True)
+            if chck:    
+                with col3:
+                    Comment = st.text_input('Comment on the solution: %s' % option.Solution, "Previously Selected", key='NOFsolutions_cm%s' % option.Solution)
+            else:
+                Updated_Input.append(option.Solution)
+
+        else:
+            with col1:
+                chck = st.checkbox('', key='NOFsolutions_ch%s' % itr)
+                if chck:
+                    with col3:
+                        Comment = st.text_input('Comment on the solution: %s' % option.Solution, option.Comment, key='NOFsolutions_cm%s' % option.Solution)
+                    UserInputs[option.Solution] = [3] * len(UserInputs)
         with col2:
             st.markdown(option.Solution)
-        if chck:
-            with col3:
-                Comment = st.text_input('Comment on the solution: %s' % option.Solution, option.Comment, key='NOFsolutions_cm%s' % option.Solution)
-            UserInputs[option.Solution] = [3] * len(UserInputs)
-    while True:
+    i = 1    
+    while True:       
         col1, col2 = st.columns(2)
         with col1:
-            itr = len(UserInputs.columns)
-            new_option = st.text_input('What is option %i?' % itr, 'Add new option', key='new_option%i' % itr)
+            new_option = st.text_input('What is option %i?' % i, 'Add new option', key='new_option%i' % i)
         with col2:
-            new_option_comment = st.text_area('Option description', 'Add new option', key='new_option_comment%i' % itr)
+            new_option_comment = st.text_area('Option description', 'Add new option', key='new_option_comment%i' % i)
         if 'Add new option' in (new_option, new_option_comment):
             break
         else:
             UserInputs[new_option] = [3] * len(UserInputs)
+            i+= 1
 
 #### Criteria ####
 with st.expander("Criteria", expanded=True):
@@ -138,13 +150,17 @@ with st.expander("Criteria", expanded=True):
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
     st.dataframe(CriteriaList)
     NewCriteria = CriteriaList.copy()
-    NewCriteria = NewCriteria[NewCriteria.Criterion.apply(lambda x: x not in UserInputs.index)]
-    nos_flag = st.checkbox(''' Include all NOS Option's criteria''')
-    nos_defaults = NewCriteria.loc[NewCriteria['NOS mandatory'] == True].index if nos_flag else ''
-    SelectedRows = st.multiselect('Select rows:', NewCriteria.index, default=[x for x in nos_defaults])
+    InputCriteria = NewCriteria[NewCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
+    nos_flag = st.checkbox(''' Include all NOS Option's mandatory criteria''')
+    nos_defaults = NewCriteria.loc[NewCriteria['NOS mandatory'] == True].index if nos_flag else '' 
+    if UserInputs.empty:
+        SelectedRows = st.multiselect('Select rows:', NewCriteria.index, default=[x for x in nos_defaults])
+    else:
+        SelectedRows = st.multiselect('Select rows:', NewCriteria.index, default=[x for x in list(set(nos_defaults) | set(InputCriteria.index))])
     SelectedCriteria = NewCriteria.loc[SelectedRows].sort_index()
-    for new_criterion in SelectedCriteria.iloc[:, 1]:
-        UserInputs.loc[new_criterion] = [len(UserInputs) + 1] + [3] * (len(UserInputs.columns)-1)
+    if not SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].empty:
+        for new_criterion in SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].iloc[:, 1]:
+            UserInputs.loc[new_criterion] = [len(UserInputs) + 1] + [3] * (len(UserInputs.columns)-1)
     SelectedCriteria = CriteriaList.copy()
     SelectedCriteria = SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
     st.write('### Selected Criteria', SelectedCriteria)
@@ -157,13 +173,29 @@ for Criterion, row in UserInputs.iterrows():
         label = 'Rank - criterion: %s' % Criterion
         index = AvailableRanks.index(row.Ranks) if row.Ranks in AvailableRanks else 0
         UserInputs.at[Criterion, 'Ranks'] = st.selectbox(label, AvailableRanks, index, key='rank_%s' % Criterion)
-        for OptionName in UserInputs.columns[1:]:
+        for OptionName in UserInputs.columns[1:][~UserInputs.columns[1:].isin(Updated_Input)]:
             value = UserInputs.at[Criterion, OptionName]
             key = 'scores_%s_%s' % (Criterion, OptionName)
             UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
             c1, c2, c3, c4 = slider_colour(value)
     used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
     AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
+    
+#Summary of Option Rating
+st.subheader('Summary of Results')
+st.write('Summary of Option Rating:')
+if not UserInputs.empty:
+    fig, ax1 = plt.subplots(figsize=(20,8)) 
+    plt.subplots_adjust(bottom=0.2)
+    plt.ylim(0, 6)
+    select_input = UserInputs.loc[:,UserInputs.columns!="Ranks"].reset_index().melt(id_vars="Criterion").rename(columns={"variable":"Solution", "value":"Score"})
+    sns.set_palette("colorblind")
+    plot = sns.barplot(x='Criterion', y='Score', hue='Solution', data=select_input, ax=ax1)
+    labels = [textwrap.fill(label.get_text(), 12) for label in plot.get_xticklabels()]
+    plot.set_xticklabels(labels)
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", width = 12)
+    st.image(buf)
 
 RankSums = [len(UserInputs) - x + 1 for x in UserInputs.Ranks]
 RankSums_ttl = sum(RankSums)
