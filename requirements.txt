@@ -5,3 +5,5 @@ pyyaml
 numpy
 xlsxwriter
 openpyxl
+matplotlib
+seaborn
