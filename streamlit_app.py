@@ -182,85 +182,129 @@ for Criterion, row in UserInputs.iterrows():
     AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
     
 #Summary of Option Rating
-st.subheader('Summary of Results')
-st.write('Summary of Option Rating:')
-if not UserInputs.empty:
-    fig, ax1 = plt.subplots(figsize=(20,8)) 
-    plt.subplots_adjust(bottom=0.2)
-    plt.ylim(0, 6)
-    select_input = UserInputs.loc[:,UserInputs.columns!="Ranks"].reset_index().melt(id_vars="Criterion").rename(columns={"variable":"Solution", "value":"Score"})
-    sns.set_palette("colorblind")
-    plot = sns.barplot(x='Criterion', y='Score', hue='Solution', data=select_input, ax=ax1)
-    labels = [textwrap.fill(label.get_text(), 12) for label in plot.get_xticklabels()]
-    plot.set_xticklabels(labels)
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png", width = 12)
-    st.image(buf)
+with st.expander("Summary of Results", expanded=True):
+    st.subheader('Summary of Results')
+    st.write('Summary of Option Rating:')
+    if not UserInputs.empty:
+        fig, ax1 = plt.subplots(figsize=(20,8)) 
+        plt.subplots_adjust(bottom=0.2)
+        plt.ylim(0, 6)
+        select_input = UserInputs.loc[:,UserInputs.columns!="Ranks"].reset_index().melt(id_vars="Criterion").rename(columns={"variable":"Solution", "value":"Score"})
+        sns.set_palette("colorblind")
+        plot = sns.barplot(x='Criterion', y='Score', hue='Solution', data=select_input, ax=ax1)
+        labels = [textwrap.fill(label.get_text(), 12) for label in plot.get_xticklabels()]
+        plot.set_xticklabels(labels)
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", width = 12)
+        st.image(buf)
 
-RankSums = [len(UserInputs) - x + 1 for x in UserInputs.Ranks]
-RankSums_ttl = sum(RankSums)
-RankSums = [x / RankSums_ttl for x in RankSums]
-RankSums = np.array(RankSums)[:, np.newaxis]
-options = list(UserInputs.columns[1:])
-if len(UserInputs.columns) > 2 and len(UserInputs) > 1:
-    UserScores = UserInputs.iloc[:, 1:].to_numpy()
-    # to add the base case with score 3
-    Scores = np.c_[np.ones(len(UserScores))+2, UserScores]
-    Scores *= RankSums
-    st.write('Summary of Option Scoring:')
-    ScoresTotal = Scores.sum(axis=0)
-    OverallScore = pd.DataFrame(ScoresTotal)
-    OverallScore = OverallScore.transpose()
-    OverallScore.columns = ['Base Case'] + options
-    OverallScore['title'] = 'Score'
-    OverallScore.set_index('title', inplace=True)
-    OverallScore = OverallScore.transpose()
-    OverallScore
+    RankSums = [len(UserInputs) - x + 1 for x in UserInputs.Ranks]
+    RankSums_ttl = sum(RankSums)
+    RankSums = [x / RankSums_ttl for x in RankSums]
+    RankSums = np.array(RankSums)[:, np.newaxis]
+    options = list(UserInputs.columns[1:])
+    if len(UserInputs.columns) > 2 and len(UserInputs) > 1:
+        UserScores = UserInputs.iloc[:, 1:].to_numpy()
+        # to add the base case with score 3
+        Scores = np.c_[np.ones(len(UserScores))+2, UserScores]
+        Scores *= RankSums
+        st.write('Summary of Option Scoring:')
+        ScoresTotal = Scores.sum(axis=0)
+        OverallScore = pd.DataFrame(ScoresTotal)
+        OverallScore = OverallScore.transpose()
+        OverallScore.columns = ['Base Case'] + options
+        OverallScore['title'] = 'Score'
+        OverallScore.set_index('title', inplace=True)
+        OverallScore = OverallScore.transpose()
+        OverallScore
 
-    # Summary of Option Rankings
-    st.write('Summary of Option Rankings:')
-    tmp = (-ScoresTotal).argsort()
-    FinalRanks = np.empty_like(tmp)
-    FinalRanks[tmp] = np.arange(len(ScoresTotal))
-    FinalRanks += 1
-    OverallRank = pd.DataFrame(FinalRanks)
-    OverallRank = OverallRank.transpose()
-    OverallRank.columns = ['Base Case'] + options
-    OverallRank['title'] = 'Rank'
-    OverallRank.set_index('title', inplace=True)
-    OverallRank = OverallRank.transpose()
-    OverallRank.sort_values(['Rank'])
-    OverallRank
+        # Summary of Option Rankings
+        st.write('Summary of Option Rankings:')
+        tmp = (-ScoresTotal).argsort()
+        FinalRanks = np.empty_like(tmp)
+        FinalRanks[tmp] = np.arange(len(ScoresTotal))
+        FinalRanks += 1
+        OverallRank = pd.DataFrame(FinalRanks)
+        OverallRank = OverallRank.transpose()
+        OverallRank.columns = ['Base Case'] + options
+        OverallRank['title'] = 'Rank'
+        OverallRank.set_index('title', inplace=True)
+        OverallRank = OverallRank.transpose()
+        OverallRank.sort_values(['Rank'])
+        OverallRank
 
     # Best Option
-    st.header('Best Option:')
-    st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
-    scores_by_criteria = SelectedCriteria.copy()
-    for j, y in enumerate(options):
-        scores_by_criteria['Score_%s' % y] = [Scores[i, j + 1] / UserInputs.Ranks[i] for i in range(len(Scores))] # j + 1 instead of j to exclude BASE
-    scores_by_criteria['Category'] = [criteria_category[x] for x in UserInputs.index]
-    scores_by_category = scores_by_criteria.groupby('Category').sum()[['Score_%s' % y for y in options]]
-    scores_by_category.columns = [x[6:] for x in scores_by_category.columns]
-    scores_by_category['Best Option'] = scores_by_category.T.idxmax()
-    scores_by_category = scores_by_category
-    st.subheader('Best option of each category:')
-    st.write('Base Case is excluded')
-    scores_by_category.iloc[:, -1:]
-    
-    #### Functionality to Export Results ####
-    # Download data
-    buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        for key in ('ProjectDescription', 'scores_by_category', 'OverallScore', 'OverallRank', 'UserInputs'):
-            globals()[key].to_excel(writer, sheet_name=key)
-        writer.save()
+        st.header('Best Option:')
+        st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
+        scores_by_criteria = SelectedCriteria.copy()
+        for j, y in enumerate(options):
+            scores_by_criteria['Score_%s' % y] = [Scores[i, j + 1] / UserInputs.Ranks[i] for i in range(len(Scores))] # j + 1 instead of j to exclude BASE
+        scores_by_criteria['Category'] = [criteria_category[x] for x in UserInputs.index]
+        scores_by_category = scores_by_criteria.groupby('Category').sum()[['Score_%s' % y for y in options]]
+        scores_by_category.columns = [x[6:] for x in scores_by_category.columns]
+        scores_by_category['Best Option'] = scores_by_category.T.idxmax()
+        scores_by_category = scores_by_category
+        st.subheader('Best option of each category:')
+        st.write('Base Case is excluded')
+        scores_by_category.iloc[:, -1:]
+        
+        #### Functionality to Export Results ####
+        # Download data
+        buffer = io.BytesIO()
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            for key in ('ProjectDescription', 'scores_by_category', 'OverallScore', 'OverallRank', 'UserInputs'):
+                globals()[key].to_excel(writer, sheet_name=key)
+            writer.save()
 
-        st.download_button(
-            label="Download data to Excel",
-            data=buffer,
-            file_name="nof-mca-tool.xlsx",
-            mime="application/vnd.ms-excel"
-        )
+            st.download_button(
+                label="Download data to Excel",
+                data=buffer,
+                file_name="nof-mca-tool.xlsx",
+                mime="application/vnd.ms-excel"
+            )
 
 #### Sensitivities ####
 # TODO
+
+with st.expander("Sensitivity Test", expanded=True):
+    if st.button("Help", key=4):
+        st.sidebar.write("Help with Sensitivity Testing")
+    value = [-50,-25,25,50]
+    input_value =[]
+    score = pd.DataFrame(UserScores)
+    new_rank_sums = []
+    for i in range(1,5):
+        input= st.select_slider('Change in Criteria Weighting Scenario ' + str(i) + ' (in %)',options=range(-75,80,5), value=value[i-1], key=i)
+        slider_colour(input)
+        input_value.append(input)
+        new_rank_sums.append(RankSums*(1+input/100))
+    #New Ranks
+    scenario_results = []
+    for scenario in range(0,len(new_rank_sums)):
+        columns =[]
+        for r1 in UserInputs.Ranks:
+            rows =[]
+            for r2 in UserInputs.Ranks:
+                if r1==r2:
+                    rank_input = new_rank_sums[scenario][r1-1]
+                    rows.append(rank_input)
+                else:
+                    rank_input = RankSums[r2-1]*(1-new_rank_sums[scenario][r1-1])/(1-RankSums[r1-1])
+                    rows.append(rank_input)
+            columns.append(rows)
+        df = pd.DataFrame(columns)
+        new_scoring = []
+        for option in score:
+            new_score = (score[option]*df).transpose().sum().astype(float)
+            new_scoring.append(new_score)
+        new_scoring = pd.DataFrame(new_scoring).transpose()
+        new_scoring.columns = options
+        new_scoring["Base_Case"] = 3        
+        new_scoring[str(input_value[scenario])+' %'] = new_scoring.idxmax(axis=1)
+        new_scoring = new_scoring[str(input_value[scenario])+' %']
+        scenario_results.append(new_scoring)
+    scenario_results = pd.DataFrame(scenario_results).transpose()    
+    scenario_results.index = SelectedCriteria["Criterion"]
+    st.header('Summary of Sensitivity Test')
+    st.write(scenario_results)
+ 
