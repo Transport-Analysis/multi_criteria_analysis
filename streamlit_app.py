@@ -271,7 +271,7 @@ with st.expander("Sensitivity Test", expanded=True):
         st.sidebar.write("Help with Sensitivity Testing")
     value = [-50,-25,25,50]
     input_value =[]
-    score = pd.DataFrame(UserScores)
+    score = pd.DataFrame(UserScores) # UserScores is not defined
     new_rank_sums = []
     for i in range(1,5):
         input= st.select_slider('Change in Criteria Weighting Scenario ' + str(i) + ' (in %)',options=range(-75,80,5), value=value[i-1], key=i)
