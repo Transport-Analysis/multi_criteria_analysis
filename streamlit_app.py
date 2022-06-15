@@ -71,7 +71,7 @@ st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provid
 ''')
 
 #### Project Description ####
-with st.expander("Project Description", expanded=True):
+with st.expander("Project Description", expanded=False):
     if st.button("Help", key=1):
         st.sidebar.write("Help with Project Description")
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
@@ -85,7 +85,7 @@ with st.expander("Project Description", expanded=True):
     ProjectDescription['answers'] = answers
 ProjectDescription = ProjectDescription[['Category', 'answers']]
 
-with st.expander('Import data from previously saved Excel file:', expanded=True):
+with st.expander('Import data from previously saved Excel file:', expanded=False):
     uploaded_project = st.file_uploader('Upload Saved Project',type='xlsx')
     if uploaded_project is not None:
         UserInputs = pd.read_excel (uploaded_project, sheet_name='UserInputs')
@@ -98,7 +98,7 @@ with st.expander('Import data from previously saved Excel file:', expanded=True)
 # New section that asks the General User to complete a preliminary review of the 
 # application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
 # to determine which option should be included in the rest of the MCA process. 
-with st.expander("Define Options", expanded=True):
+with st.expander("Define Options", expanded=False):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Define Options")
     st.write('Choose from NOF options bla bla.')
@@ -144,7 +144,7 @@ with st.expander("Define Options", expanded=True):
             i+= 1
 
 #### Criteria ####
-with st.expander("Criteria", expanded=True):
+with st.expander("Criteria", expanded=False):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
     st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
@@ -182,7 +182,7 @@ for Criterion, row in UserInputs.iterrows():
     AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
     
 #Summary of Option Rating
-with st.expander("Summary of Results", expanded=True):
+with st.expander("Summary of Results", expanded=False):
     st.subheader('Summary of Results')
     st.write('Summary of Option Rating:')
     if not UserInputs.empty:
@@ -264,9 +264,7 @@ with st.expander("Summary of Results", expanded=True):
             )
 
 #### Sensitivities ####
-# TODO
-
-with st.expander("Sensitivity Test", expanded=True):
+with st.expander("Sensitivity Test", expanded=False):
     if st.button("Help", key=4):
         st.sidebar.write("Help with Sensitivity Testing")
     value = [-50,-25,25,50]
