@@ -146,7 +146,7 @@ with st.expander("Define Options", expanded=False):
 with st.expander("Criteria", expanded=False):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
-    st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
+    st.write('''Various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
     st.dataframe(CriteriaList)
     NewCriteria = CriteriaList.copy()
     InputCriteria = NewCriteria[NewCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
