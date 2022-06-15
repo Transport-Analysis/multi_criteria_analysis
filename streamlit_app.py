@@ -66,8 +66,7 @@ criteria_category = dict(zip(CriteriaList.Criterion, CriteriaList.Category))
 #### Introduction ####
 st.header("Smarter Solutions")
 st.subheader("Multi-Criteria Analysis (MCA) Tool")
-st.write('''This Smarter Solutions Multi-Criteria Analysis **(MCA)** Tool provides a clear line-of-sight across the Department of Transport and Main Roads' **(TMR)** infrastructure planning and investment process, providing assurance that the Network Optimisation Framework is embedded in our decision-making.
-    The MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
+st.write('''This tool has been designed for use in selecting a preferred option, or ranking alternate options, where network optimisation solutions **(NOS)** are included within assessment processes. The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
 ''')
 
 #### Project Description ####
@@ -147,7 +146,7 @@ with st.expander("Define Options", expanded=False):
 with st.expander("Criteria", expanded=False):
     if st.button("Help", key=3):
         st.sidebar.write("Help with Criteria")
-    st.write('''As per the Smarter solutions -  Multi-Criteria Assessment Technical Note, various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
+    st.write('''Various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate. ''')
     st.dataframe(CriteriaList)
     NewCriteria = CriteriaList.copy()
     InputCriteria = NewCriteria[NewCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
