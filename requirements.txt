@@ -7,4 +7,4 @@ xlsxwriter
 openpyxl
 matplotlib
 seaborn
-textwrap
+textwrap3
