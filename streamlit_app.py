@@ -93,7 +93,7 @@ if st.button("Glossary", key=0):
                           
 ### Import Diagram        
 from PIL import Image
-image = Image.open('diagram.JPG')
+image = Image.open('assets/diagram.JPG')
 col1,col2,col3 = st.columns([1,5,0.2])
 with col2: 
     st.image(image, caption='')
