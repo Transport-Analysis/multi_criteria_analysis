@@ -92,14 +92,14 @@ if st.button("Glossary", key=0):
         st.sidebar.write("Weightings: Assigned based on the rank of criteria")
         st.sidebar.write("Base case: Do nothing scenario")
                           
-### Import Diagram        
+### Import Diagram ###       
 from PIL import Image
 image = Image.open('assets/diagram.JPG')
 col1,col2,col3 = st.columns([1,5,0.2])
 with col2: 
     st.image(image, caption='')
     
-### Import Tool
+### Import Tool ###
 with st.expander('(Optional) Import data from previously saved Excel file:', expanded=False):
     if st.button("Help", key=1):
             st.sidebar.write("Help with Import Tool")
@@ -265,7 +265,7 @@ with st.expander("Criteria", expanded=False):
 AvailableRanks = list(range(1,len(UserInputs) + 1))
 with st.expander("Criteria Ranking & Scoring", expanded=False):
     for Criterion, row in UserInputs.iterrows():
-        st.write("Criterion: %s" % Criterion)
+        st.subheader("Criterion: %s" % Criterion)
         label = 'Rank - criterion: %s' % Criterion
         index = AvailableRanks.index(row.Ranks) if row.Ranks in AvailableRanks else 0
         col1,col2,col3,col4 = st.columns([1.5,1,1,1])
