@@ -100,6 +100,7 @@ with col2:
     st.image(image, caption='')
     
 ### Import Tool ###
+st.subheader("File")
 with st.expander('(Optional) Import data from previously saved attempts (if applicable):', expanded=False):
     if st.button("Help", key=1):
             st.sidebar.write("Help with Import Tool")
