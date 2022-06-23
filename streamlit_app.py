@@ -218,7 +218,7 @@ with st.expander("Define Options", expanded=False):
     option_description = pd.DataFrame(option_description)
 
 #### Criteria ####
-st.subheader("Criteria")
+st.subheader("Criteria, Ranking and Option Scoring")
 with st.expander("Criteria", expanded=False):
     if st.button("Help", key=4):
         st.sidebar.write("Help with Criteria")
@@ -265,7 +265,6 @@ with st.expander("Criteria", expanded=False):
             st.write(Criterion)
             
 #### Criteria Ranking & Scoring ####
-st.subheader("Criteria Ranking and Option Scoring")
 AvailableRanks = list(range(1,len(UserInputs) + 1))
 with st.expander("Criteria Ranking & Scoring", expanded=False):
     for Criterion, row in UserInputs.iterrows():
