@@ -355,7 +355,7 @@ with st.expander("Results", expanded=False):
             OverallRank
 
             #### Best Option ####
-            st.header('Best Option')
+            st.subheader('Best Option')
             st.write('Overall: %s' % OverallRank.index[np.where(FinalRanks==1)][0])
             scores_by_criteria = SelectedCriteria.copy()
             for j, y in enumerate(options):
