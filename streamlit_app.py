@@ -281,7 +281,7 @@ for Criterion, row in UserInputs.iterrows():
                 UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
         elif i==2 or i%3==2:
             with col22:
-                UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value
+                UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
         else:
             with col33:
                 UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)                 
