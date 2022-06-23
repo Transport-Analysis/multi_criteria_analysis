@@ -106,8 +106,8 @@ with st.expander('Import data from previously saved attempts (if applicable)', e
             st.sidebar.write("Help with Import Tool")
     uploaded_project = st.file_uploader('Upload Saved Excel Project (Files downloaded from this website only)',type='xlsx')
     if uploaded_project is not None:
-        UserInputs = pd.read_excel (uploaded_project, sheet_name='UserInputs')
-        OptionDescription = pd.read_excel (uploaded_project, sheet_name='option_description')
+        UserInputs = pd.read_excel(uploaded_project, sheet_name='UserInputs')
+        OptionDescription = pd.read_excel(uploaded_project, sheet_name='option_description')
         st.markdown('You uploaded a file successfully.')
     else:
         UserInputs = pd.DataFrame(columns=['Criterion','Ranks'])
