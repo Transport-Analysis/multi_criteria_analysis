@@ -428,7 +428,7 @@ with st.expander("Sensitivity Test", expanded=False):
             scenario_results.append(new_scoring)
         scenario_results = pd.DataFrame(scenario_results).transpose()    
         scenario_results.index = SelectedCriteria["Criterion"]
-        st.header('Summary of Sensitivity Test')
+        st.subheader('Sensitivity Analysis Summary')
         st.write(scenario_results)
     except:
         pass
