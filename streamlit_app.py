@@ -66,7 +66,7 @@ def slider_colour(slider):
     
 # Import data from input files
 for filename in ('inputs', 'variables', 'NOF_solutions'):
-    with open('%s.yaml' % filename) as file:
+    with open('data/%s.yaml' % filename) as file:
         Inpt_lst = yaml.load(file, Loader=yaml.FullLoader)
         for key, dcts in Inpt_lst.items():
             for i, dct in enumerate(dcts):
