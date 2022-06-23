@@ -1,13 +1,13 @@
 ProjectDescription:
   - Category: Decision Context
-    Question: What is the overarching service need or opportunity that this project response is sought to address? What is the timeframe for required impacts?
+    Question: What is the overarching service need or opportunity that this project response is sought to address? 
+  - Category: Decision Context    
+    Question: What is the timeframe for required impacts?
   - Category: Network Context
-    Question: What is the current transport infrastructure environment? Is there any complimentary infrastructure investment occuring within close proximity?
+    Question: What is the current transport infrastructure environment? 
+  - Category: Network Context
+    Question: Is there any complimentary infrastructure investment occuring within close proximity?
   - Category: Key Objectives
     Question: What is the key objective the Project is being implemented to achieve?
     Options: ['Capacity', 'Performance', 'Behaviour Change', 'Safety', 'Other']
-  - Category: Segmented Objectives
-    Question: What are the segmented objectives?
-    Options: ['Ultimate', 'Intermediate', 'Immediate']
-  - Category: Time Frame
-    Question: What are the corresponding timeframes for these objectives?
+
