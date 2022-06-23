@@ -390,7 +390,7 @@ st.subheader("Sensitivity Analysis")
 with st.expander("Sensitivity Test", expanded=False):
     if st.button("Help", key=5):
         st.sidebar.write("Help with Sensitivity Testing")
-    st.write("Sensitivity Testing is done to check whether the chosen option still remains the best after adjusting criteria weightings")
+    st.write("Sensitivity analysis can be undertaken to assess whether the highest option remains the best after adjusting criteria weightings.")
     value = [-50,-25,25,50]
     input_value =[]
     try:
