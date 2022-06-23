@@ -100,7 +100,7 @@ with col2:
     st.image(image, caption='')
     
 ### Import Tool ###
-with st.expander('(Optional) Import data from previously saved Excel file:', expanded=False):
+with st.expander('(Optional) Import data from previously saved attempts (if applicable):', expanded=False):
     if st.button("Help", key=1):
             st.sidebar.write("Help with Import Tool")
     uploaded_project = st.file_uploader('Upload Saved Excel Project (Files downloaded from this website only)',type='xlsx')
