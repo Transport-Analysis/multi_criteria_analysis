@@ -355,8 +355,8 @@ with st.expander("Results", expanded=False):
             OverallRank
 
             #### Best Option ####
-            st.header('Best Option:')
-            st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
+            st.header('Best Option')
+            st.write('Overall:' % OverallRank.index[np.where(FinalRanks==1)][0])
             scores_by_criteria = SelectedCriteria.copy()
             for j, y in enumerate(options):
                 scores_by_criteria['Score_%s' % y] = [Scores[i, j + 1] / UserInputs.Ranks[i] for i in range(len(Scores))] # j + 1 instead of j to exclude BASE
@@ -365,8 +365,7 @@ with st.expander("Results", expanded=False):
             scores_by_category.columns = [x[6:] for x in scores_by_category.columns]
             scores_by_category['Best Option'] = scores_by_category.T.idxmax()
             scores_by_category = scores_by_category
-            st.subheader('Best option of each category:')
-            st.write('Base Case is excluded')
+            st.write('Best option of each category (note: Base Case is excluded)')
             scores_by_category.iloc[:, -1:]
             
             #### Functionality to Export Results ####
