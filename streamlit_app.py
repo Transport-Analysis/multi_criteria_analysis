@@ -265,7 +265,7 @@ with st.expander("Criteria", expanded=False):
 #### Scoring ####
 AvailableRanks = list(range(1,len(UserInputs) + 1))
 for Criterion, row in UserInputs.iterrows():
-    st.write("Criterion: %s" % Criterion):
+    st.write("Criterion: %s" % Criterion)
     label = 'Rank - criterion: %s' % Criterion
     index = AvailableRanks.index(row.Ranks) if row.Ranks in AvailableRanks else 0
     col1,col2,col3,col4 = st.columns([1.5,1,1,1])
