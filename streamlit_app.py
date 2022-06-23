@@ -269,10 +269,10 @@ AvailableRanks = list(range(1,len(UserInputs) + 1))
 with st.expander("Criteria Ranking & Scoring", expanded=False):
     for Criterion, row in UserInputs.iterrows():
         # Sub-header
-        st.subheader("Criterion: %s" % Criterion)
+        st.subheader("%s" % Criterion)
         
         # Ranking 
-        label = 'Rank - criterion: %s' % Criterion
+        label = 'Criteria Rank'
         index = AvailableRanks.index(row.Ranks) if row.Ranks in AvailableRanks else 0
         col1,col2,col3,col4 = st.columns([1.5,1,1,1])
         with col1:         
