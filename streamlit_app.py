@@ -265,7 +265,10 @@ with st.expander("Criteria", expanded=False):
 AvailableRanks = list(range(1,len(UserInputs) + 1))
 with st.expander("Criteria Ranking & Scoring", expanded=False):
     for Criterion, row in UserInputs.iterrows():
+        # Sub-header
         st.subheader("Criterion: %s" % Criterion)
+        
+        # Ranking 
         label = 'Rank - criterion: %s' % Criterion
         index = AvailableRanks.index(row.Ranks) if row.Ranks in AvailableRanks else 0
         col1,col2,col3,col4 = st.columns([1.5,1,1,1])
@@ -273,6 +276,8 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
             UserInputs.at[Criterion, 'Ranks'] = st.selectbox(label, AvailableRanks, index, key='rank_%s' % Criterion)
         col11,col22,col33 = st.columns(3)
         i=1
+        
+        # Scoring
         for OptionName in UserInputs.columns[i:][~UserInputs.columns[i:].isin(Updated_Input)]:
             value = UserInputs.at[Criterion, OptionName]
             key = 'scores_%s_%s' % (Criterion, OptionName)
@@ -287,6 +292,7 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
                     UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)                 
             c1, c2, c3, c4 = slider_colour(value)
             i+=1
+            
         used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
         AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
     
