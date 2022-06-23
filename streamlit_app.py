@@ -262,8 +262,8 @@ with st.expander("Criteria", expanded=False):
             st.write(Criterion)
             
 #### Criteria Ranking & Scoring ####
-with st.expander("Criteria Ranking & Scoring", expanded=False):
 AvailableRanks = list(range(1,len(UserInputs) + 1))
+with st.expander("Criteria Ranking & Scoring", expanded=False):
 for Criterion, row in UserInputs.iterrows():
     st.write("Criterion: %s" % Criterion)
     label = 'Rank - criterion: %s' % Criterion
