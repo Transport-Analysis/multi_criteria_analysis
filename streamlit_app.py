@@ -101,7 +101,7 @@ with col2:
     
 ### Import Tool ###
 st.subheader("File Import (optional)")
-with st.expander('(Optional) Import data from previously saved attempts (if applicable):', expanded=False):
+with st.expander('(Optional) Import data from previously saved attempts (if applicable)', expanded=False):
     if st.button("Help", key=1):
             st.sidebar.write("Help with Import Tool")
     uploaded_project = st.file_uploader('Upload Saved Excel Project (Files downloaded from this website only)',type='xlsx')
