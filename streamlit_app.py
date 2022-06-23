@@ -356,7 +356,7 @@ with st.expander("Results", expanded=False):
 
             #### Best Option ####
             st.header('Best Option')
-            st.write('Overall:' % OverallRank.index[np.where(FinalRanks==1)][0])
+            st.write('Overall: %s' % OverallRank.index[np.where(FinalRanks==1)][0])
             scores_by_criteria = SelectedCriteria.copy()
             for j, y in enumerate(options):
                 scores_by_criteria['Score_%s' % y] = [Scores[i, j + 1] / UserInputs.Ranks[i] for i in range(len(Scores))] # j + 1 instead of j to exclude BASE
