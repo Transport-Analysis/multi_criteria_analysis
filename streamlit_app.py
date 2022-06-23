@@ -261,8 +261,8 @@ with st.expander("Criteria", expanded=False):
         with col11:
             st.write(Criterion)
             
-#### Weightings Ranking ####
-#### Scoring ####
+#### Criteria Ranking & Scoring ####
+with st.expander("Criteria Ranking & Scoring", expanded=False):
 AvailableRanks = list(range(1,len(UserInputs) + 1))
 for Criterion, row in UserInputs.iterrows():
     st.write("Criterion: %s" % Criterion)
