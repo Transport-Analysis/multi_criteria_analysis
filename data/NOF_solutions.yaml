@@ -5,7 +5,7 @@ NOFsolutions:
     Comment: Public transport jump lanes are dedicated stretch of roadway that provides public transport priority at an intersection approach"
   - Solution: Transit signal priority
     Comment: Transit signal priority is the modification of either the operations or the environment for public transport vehicles moving through an intersection
-  - Solution: Park andn ride facilities
+  - Solution: Park and ride facilities
     Comment: Park and ride (PnR) facilities are dedicated parking spaces located at public transport stations alongside public transport interchanges
   - Solution: Board all doors
     Comment: Boarding all doors is an operational change that permits passengers to board and discharge buses from both the front and rear doors (and middle doors where applicable)
