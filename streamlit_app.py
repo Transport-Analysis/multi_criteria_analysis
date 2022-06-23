@@ -10,6 +10,8 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import textwrap
+
+
 # Page Config #
 st.set_page_config(
     page_title = "MCA Tool",
