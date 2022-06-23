@@ -252,7 +252,6 @@ with st.expander("Criteria", expanded=False):
     if not SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].empty:
         for new_criterion in SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].iloc[:, 1]:
             UserInputs.loc[new_criterion] = [len(UserInputs) + 1] + [3] * (len(UserInputs.columns)-1) 
-    #SelectedCriteria = CriteriaList.copy()
     SelectedCriteria = SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
 
     st.write('##### Selected Criteria')
@@ -296,7 +295,7 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
         used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
         AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
     
-#Summary of Option Rating
+#### Summary of Option Rating ####
 with st.expander("Summary of Results", expanded=False):
     try:
         st.write('This section provides a summary of the scoring and ranking per criteria and options chosen')
@@ -335,7 +334,7 @@ with st.expander("Summary of Results", expanded=False):
             OverallScore = OverallScore.style.format(subset=['Score'], formatter="{:.2}")
             OverallScore
 
-            # Summary of Option Rankings
+            #### Summary of Option Rankings ####
             st.write('Summary of Option Rankings:')
             tmp = (-ScoresTotal).argsort()
             FinalRanks = np.empty_like(tmp)
@@ -350,7 +349,7 @@ with st.expander("Summary of Results", expanded=False):
             OverallRank.sort_values(['Rank'])
             OverallRank
 
-            # Best Option
+            #### Best Option ####
             st.header('Best Option:')
             st.subheader('Overall: \n%s' % OverallRank.index[np.where(FinalRanks==1)][0])
             scores_by_criteria = SelectedCriteria.copy()
