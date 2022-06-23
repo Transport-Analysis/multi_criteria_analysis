@@ -204,7 +204,7 @@ with st.expander("Define Options", expanded=False):
                 chck = st.checkbox('', key='NOFsolutions_ch%s' % itr)
                 if chck:
                     with col3:
-                        Comment = st.text_input('Additional comment on the solution: %s' % option.Solution, "Add more comment", key='NOFsolutions_cm%s' % option.Solution, help=option.Comment)
+                        Comment = st.text_input('Additional comment on the solution: %s' % option.Solution, "Add comment", key='NOFsolutions_cm%s' % option.Solution, help=option.Comment)
                         option_description['Option'].append(option.Solution)
                         option_description['OptionDescription'].append(Comment)
                         option_description['Type'].append('Predefined option')
