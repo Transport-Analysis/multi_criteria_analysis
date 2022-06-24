@@ -48,7 +48,7 @@ def _colour_multiselect_():
 _colour_multiselect_()
 
 #Define Slider Colour
-def slider_colour(slider):
+def slider_colour():
     ColourMinMax = st.markdown(''' <style> div.stSlider > div[data-baseweb = "slider"] > div[data-testid="stTickBar"] > div {
     background: rgb(1 1 1 / 0%); } </style>''', unsafe_allow_html = True)
     Slider_Cursor = st.markdown(''' <style> div.stSlider > div[data-baseweb="slider"] > div > div > div[role="slider"]{  
@@ -61,8 +61,8 @@ def slider_colour(slider):
                             rgb(0, 97, 100) 50%, 
                             rgb(0, 97, 100) 100%);
                             }} </style>'''
-    ColourSlider = st.markdown(col, unsafe_allow_html = True)
-    return ColourMinMax, Slider_Cursor, Slider_Number, ColourSlider
+    st.markdown(col, unsafe_allow_html = True)
+slider_colour()    
     
 # Import data from input files
 for filename in ('inputs', 'variables', 'NOF_solutions'):
@@ -108,32 +108,49 @@ with st.expander('Import data from previously saved attempts (if applicable)', e
     if uploaded_project is not None:
         UserInputs = pd.read_excel(uploaded_project, sheet_name='UserInputs')
         OptionDescription = pd.read_excel(uploaded_project, sheet_name='option_description')
+        project_description = pd.read_excel(uploaded_project, sheet_name='ProjectDescription')
         st.markdown('You uploaded a file successfully.')
     else:
         UserInputs = pd.DataFrame(columns=['Criterion','Ranks'])
         OptionDescription = pd.DataFrame(columns=['Option','OptionDescription','Type'])
+        project_description = pd.DataFrame(columns=['Category', 'answers'])
     UserInputs.set_index('Criterion', inplace=True)
-    
+  
 #### Project Description ####
 st.subheader("Project Details")
 with st.expander("Project Description", expanded=False):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Project Description")
     st.write('''The project must be clearly defined within the MCA to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity. Accordingly, the project should be defined in terms of:''')
+    
     answers = [] 
     category_used =[]    
-    for _, row in ProjectDescription.iterrows():
-        if row.Category in category_used:
-            st.write('')
-        else:
-            category_used.append(row.Category)
-            st.write('%s:' % row.Category)
-        if row.hasnans: 
-            answers.append(st.text_input(row.Question, help="Press Enter to Apply"))
-        else:
-            answers.append(','.join([x for x in st.multiselect(row.Question, row.Options)]))
-    ProjectDescription['answers'] = answers
-ProjectDescription = ProjectDescription[['Category', 'answers']]
+    if not project_description.empty:   
+        for _, row in project_description.iterrows():  
+            if row.Category in category_used:
+                st.write('')
+            else:
+                category_used.append(row.Category)
+                st.write('%s:' % row.Category)
+            if row.hasnans:             
+                answers.append(st.text_input(row.Question, value=row.answers, help="Press Enter to Apply"))
+            else:
+                answers.append(','.join([x for x in st.multiselect(label=project_description.iloc[4,2], options=str(project_description.iloc[4,3]), default=str(project_description.iloc[4,4]))]))  
+        ProjectDescription['answers'] = answers
+        
+    else:
+        for _, row in ProjectDescription.iterrows():
+
+            if row.Category in category_used:
+                st.write('')
+            else:
+                category_used.append(row.Category)
+                st.write('%s:' % row.Category)
+            if row.hasnans: 
+                    answers.append(st.text_input(row.Question, help="Press Enter to Apply"))
+            else:
+                    answers.append(','.join([x for x in st.multiselect(row.Question, row.Options)]))               
+        ProjectDescription['answers'] = answers
 
 #### Options #### 
 st.subheader("Options")
@@ -234,6 +251,7 @@ with st.expander("Criteria", expanded=False):
     else:
         SelectedRows = st.multiselect('Select rows:', NewCriteria.index, default=[x for x in list(set(nos_defaults) | set(InputCriteria.index))])
     SelectedCriteria = NewCriteria.loc[SelectedRows].sort_index()
+    
     st.write('Choose your own criteria')
     input_criteria = {"Category":[],"Criterion":[]}
     i = 1 
@@ -252,12 +270,11 @@ with st.expander("Criteria", expanded=False):
     input_criteria = pd.DataFrame(input_criteria)
     SelectedCriteria = SelectedCriteria.append(input_criteria, ignore_index=True)
     SelectedCriteria = SelectedCriteria[SelectedCriteria["Criterion"]!="Add new criteria"]
-    
     if not SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].empty:
         for new_criterion in SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x not in UserInputs.index)].iloc[:, 1]:
             UserInputs.loc[new_criterion] = [len(UserInputs) + 1] + [3] * (len(UserInputs.columns)-1) 
     SelectedCriteria = SelectedCriteria[SelectedCriteria.Criterion.apply(lambda x: x in UserInputs.index)]
-
+    UserInputs = UserInputs[UserInputs.index.isin(SelectedCriteria['Criterion'])]
     st.write('##### Selected Criteria')
     col11,col22 = st.columns([2,1])
     for Criterion, row in UserInputs.iterrows():
@@ -277,24 +294,22 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
         col1,col2,col3,col4 = st.columns([1.5,1,1,1])
         with col1:         
             UserInputs.at[Criterion, 'Ranks'] = st.selectbox(label, AvailableRanks, index, key='rank_%s' % Criterion)
-        col11,col22,col33 = st.columns(3)
-        i=1
+        
         
         # Scoring
-        for OptionName in UserInputs.columns[i:][~UserInputs.columns[i:].isin(Updated_Input)]:
+        cols = st.columns(3)
+        i = 1 
+        for OptionName in UserInputs.columns[i:][~UserInputs.columns[i:].isin(Updated_Input)]:              
             value = UserInputs.at[Criterion, OptionName]
             key = 'scores_%s_%s' % (Criterion, OptionName)
-            if i==1 or i%3==1:
-                with col11:
-                    UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
-            elif i==2 or i%3==2:
-                with col22:
-                    UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
+            if i>3 and i%3==0:
+                j = 1
+                UserInputs.at[Criterion, OptionName] = cols[j-1].select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
             else:
-                with col33:
-                    UserInputs.at[Criterion, OptionName] = st.select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)                 
-            c1, c2, c3, c4 = slider_colour(value)
+                j = i
+                UserInputs.at[Criterion, OptionName] = cols[j-1].select_slider('Score - option: %s' %  OptionName, range(1,6), key=key, value=value)
             i+=1
+            
             
         used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
         AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
@@ -396,9 +411,9 @@ with st.expander("Sensitivity Test", expanded=False):
     try:
         score = pd.DataFrame(UserScores)
         new_rank_sums = []
-        for i in range(1,5):
-            input= st.select_slider('Change in Criteria Weighting Scenario ' + str(i) + ' (in %)',options=range(-75,80,5), value=value[i-1], key=i)
-            slider_colour(input)
+        cols = st.columns(4)
+        for i in range(len(cols)):
+            input = cols[i].number_input('Change in Criteria Weighting Scenario ' + str(i+1) + ' (in %)', min_value=-75, max_value=75, step=5, value=value[i], key=i)
             input_value.append(input)
             new_rank_sums.append(RankSums*(1+input/100))
         #New Ranks
