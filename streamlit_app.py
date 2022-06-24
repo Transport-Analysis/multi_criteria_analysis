@@ -127,9 +127,9 @@ with st.expander("Project Description", expanded=False):
     answers = [] 
     category_used =[]   
     options = ProjectDescription.Options[5]
-    default = str(project_description.iloc[4,4])
     
-    if not project_description.empty:   
+    if not project_description.empty:  
+        default = str(project_description.iloc[4,4])
         for _, row in project_description.iterrows():  
             if row.Category in category_used:
                 st.write('')
