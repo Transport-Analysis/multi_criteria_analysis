@@ -99,7 +99,7 @@ col1,col2,col3 = st.columns([1,5,0.2])
 with col2: 
     st.image(image, caption='')
     
-### Import Tool ###
+### Step 01. Import Tool ###
 st.subheader("1. File Import (optional)")
 with st.expander('Import data from previously saved attempts (if applicable)', expanded=False):
     if st.button("Help", key=1):
@@ -117,8 +117,8 @@ with st.expander('Import data from previously saved attempts (if applicable)', e
         project_description = pd.DataFrame(columns=['Category', 'answers'])
     UserInputs.set_index('Criterion', inplace=True)
   
-#### Project Description ####
-st.subheader("Project Details")
+#### Step 2. Project Details ####
+st.subheader("2. Project Details")
 with st.expander("Project Description", expanded=False):
     if st.button("Help", key=2):
         st.sidebar.write("Help with Project Description")
@@ -156,8 +156,8 @@ with st.expander("Project Description", expanded=False):
                     answers.append(','.join([x for x in st.multiselect(row.Question, row.Options)]))               
         ProjectDescription['answers'] = answers
 
-#### Options #### 
-st.subheader("Options")
+#### Step 3. Define Options #### 
+st.subheader("3. Define Options")
 # Includes a new section that asks the General User to complete a preliminary review of the 
 # application of each NOF option (Yes/No) in the Smarter Solutions Reference Guide 
 # to determine which option should be included in the rest of the MCA process. 
@@ -238,8 +238,8 @@ with st.expander("Define Options", expanded=False):
 
     option_description = pd.DataFrame(option_description)
 
-#### Criteria ####
-st.subheader("Criteria, Ranking and Option Scoring")
+#### Step 4. Criteria ####
+st.subheader("4. Criteria and 5. Criteria Ranking and Option Scoring")
 with st.expander("Criteria", expanded=False):
     if st.button("Help", key=4):
         st.sidebar.write("Help with Criteria")
@@ -323,8 +323,8 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
         used = int(np.where(UserInputs.index.to_numpy() == Criterion)[0])
         AvailableRanks = [x for x in AvailableRanks if x not in list(UserInputs.Ranks.to_numpy())[:used+1]]
     
-#### Summary of Option Rating ####
-st.subheader("Results")
+#### Step 6. Results ####
+st.subheader("6. Results")
 with st.expander("Results", expanded=False):
     try:
         st.write('This section provides a summary of the scoring and ranking per criteria and options chosen')
@@ -409,8 +409,8 @@ with st.expander("Results", expanded=False):
     except:
         pass
 
-#### Sensitivities ####
-st.subheader("Sensitivity Analysis")
+#### Step 7. Sensitivity Analysis ####
+st.subheader("7. Sensitivity Analysis")
 with st.expander("Sensitivity Test", expanded=False):
     if st.button("Help", key=5):
         st.sidebar.write("Help with Sensitivity Testing")
