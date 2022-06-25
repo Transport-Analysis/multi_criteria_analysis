@@ -94,7 +94,7 @@ if st.button("Glossary", key=0):
                           
 ### Import Diagram ###       
 from PIL import Image
-image = Image.open('assets/mca_process_v2.JPG')
+image = Image.open('assets/mca_process_v2.png')
 col1,col2,col3 = st.columns([1,5,0.2])
 with col2: 
     st.image(image, caption='')
