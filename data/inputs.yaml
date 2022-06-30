@@ -3,170 +3,169 @@ CriteriaList:
     Criterion: Implementation Costs
     Indicator: Estimated cost of construction and procurement ($)
     Measure: $
-    NOS mandatory: True
+    NOS_mandatory: True
   - Category: Economic Data
     Criterion: Operation and Maintenance Costs
     Indicator: Estimated cost of whole-of-life asset operation and maintenance ($)
     Measure: $
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Economic Data
     Criterion: End-to-end cost
     Indicator: Describe impact on direct end-to-end cost or price of travel (incl. amenity)
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Economic Data
     Criterion: Road User Vehicle Operating Costs
     Indicator: Estimated change in vehicle operating costs ($/pkt)
     Measure: $/pkt
-    NOS mandatory: True
+    NOS_mandatory: True
   - Category: Economic Data
     Criterion: Rapid BCR
     Indicator: Rapid Benefit Cost Ratio 
     Measure: Ratio
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Network Connectivity
     Indicator: Describe impact on the directness of links and the density of connections in the network
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Operating Conditions
     Indicator: Describe change in the efficiency of operating conditions
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Travel Time Reliability
     Indicator: Impact on time travel reliability, measured by the percent variation in travel time (% Variation)
     Measure: '% Variation'
-    NOS mandatory: True    
+    NOS_mandatory: True    
   - Category: Traffic Performance
     Criterion: LOS
     Indicator: Impact on transport network performance as captured by the level of service rating (A-F LOS Scale)
     Measure: A-F LOS Scale
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Intersection Delay
     Indicator: Change in intersection delay (min)
     Measure: min
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Public Transport Patronage
     Indicator: Change in user behaviour to increase public transport patronage (#/week)
     Measure: '# / week'
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Active transport (Cyclists/Pedestrians)
     Indicator: Describe impact on active transport users
     Measure: Descriptive
-    NOS mandatory: True
+    NOS_mandatory: True
   - Category: Traffic Performance
     Criterion: Performance Horizon
     Indicator: Performance of the option over time, as measured by the duration of benefits (years)
     Measure: Years
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Amenity of travel
     Indicator: Describe change in the perceived quality or amenity of travel
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Safety
     Indicator: Impact on safety incl. accidents, injuries and casualities (#/pkt)
     Measure: '# / pkt'
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Freight Volume
     Indicator: Impact on freight volume (m3/pkt)
     Measure: m3 / pkt
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Freight Vehicle Operating Costs
     Indicator: Estimated change in freight vehicle operating costs ($)
     Measure: $
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Frequency of Service
     Indicator: Impact on the frequency of freight services (#)
     Measure: '#'
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Construction
     Criterion: Traffic Management
     Indicator: Describe impact on traffic management during construction / implementation
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Construction
     Criterion: Community Disruption
     Indicator: Describe impact of construction on the local community, including visual amenity, safety risk, increased traffic and additional parking demand
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Construction
     Criterion: Engineering / Constructability
     Indicator: Describe potential engineering or construction challenges - during construction or across lifecycle
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Construction
     Criterion: Geotechnical Risk
     Indicator:
     Measure:
-    NOS mandatory: True      
+    NOS_mandatory: True      
   - Category: Construction
     Criterion: Ease of Construction
     Indicator: Level of political and construction risk resulting in delays and disruptions during construction
     Measure:
-    NOS mandatory: True      
+    NOS_mandatory: True      
   - Category: Construction
     Criterion: Stageability
     Indicator: Ability for the option to be implemented in discrete stages over time
     Measure: Binary
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Environment
     Criterion: Noise and Air Quality
     Indicator: Impact on noise and air quality
     Measure:
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Environment
     Criterion: Vehicle Emissions
     Indicator: Impact on vehicle emissions
     Measure:
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Environment
     Criterion: Flora and fauna
     Indicator: Impact on vegetation and / or sites of environmental importance (km2)
     Measure: km2
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Barriers to development
     Indicator: Are there any significant barriers to development? E.g. existing land use or cultural significance
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Future land use
     Indicator: Degree of alignment to strategic land use and planning objectives
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Mode Shift
     Indicator: Impact on user behaviour and influence on mode shift
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Impact on property owners
     Indicator: Impact to local land, property and businesses resulting from disruption during construction and operation
     Measure: Quantity of affected properties
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Visual Amenity and Urban Quality
     Indicator: Impact on visual amenity and urban quality as a result of changes in bikeways, walking paths, noise during construction and design/aesthetic
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
   - Category: Social Factors
     Criterion: Severance
     Indicator: Impact on community severance
     Measure: Descriptive
-    NOS mandatory: True    
-    NOS mandatory: False
+    NOS_mandatory: True    
   - Category: Social Factors
     Criterion: Regional development
     Indicator: Change in the economic and social impact of the transport system on regional development
     Measure: Descriptive
-    NOS mandatory: False
+    NOS_mandatory: False
