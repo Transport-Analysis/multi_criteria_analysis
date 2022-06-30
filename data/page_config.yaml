@@ -1,0 +1,85 @@
+page_header: 'Smarter Solutions: Multi-Criteria Analysis (MCA) Tool'
+page_intro: >
+  This MCA tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network 
+  Optimisation Solutions (NOS) are included within assessment processes. The MCA Tool applies a standardised 
+  consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right 
+  infrastructure at the right time and aligning with government policy direction for investment as outlined in 
+  the Queensland Government's State Infrastructure Plan.
+import_tool_help: |
+  Use this function to import a previously configured project which has been exported to Excel.
+  
+  Note that currently only XLSX formats are supported.
+
+project_details_help: |
+  This section outlines the key decision and network context for the project, including the key objectives. 
+
+  To input a new project, simply enter the relevant information into the provided text boxes and select the key objectives for the project.
+
+  If you have uploaded an existing project, previously input fields will be automatically filled within the text boxes.
+project_details_desc: >
+  The project must be clearly defined within the MCA to ensure that appropriate options are short-listed 
+  for evaluation and that the criteria selected for assessment reflect the nature of the service requirement 
+  or opportunity. Accordingly, the project should be defined in terms of:
+options_help: |
+  Options can be included either by selecting your own custom options or by using one or more of the predefined options included.
+
+  To add a new option, simply add the new option name and description within the provided text boxes, pressing Enter to apply.
+  Once a new option has been added, a new option box will automatically be generated underneath. This can be left blank.
+
+  Pre-defined options have been provided under the 'Predefined Options' heading.
+
+  Note that at least two options must be included in order to produce Results.
+criteria_help: |
+  A table of predefined criteria has been included, including information on whether the criterion is mandatory within the NOS evaluation process.
+  To select from the predefined criteria simply use the provided select box, choosing the revelant Row ID of the criteria to be included.
+
+  Custom user defined criteria can also be included using the provided text boxes. To include a custom criterion, ensure that both the criterion and category is included.
+
+  An option has been included which allows the user to easily include all NOS Option's mandatory criteria within the analysis. 
+
+  A list of selected criteria will be output at the bottom of the criteria section.
+
+criteria_desc: >
+  Various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to 
+  intersection delay, public transport patronage and freight should be selected where appropriate.
+ranking_help: |
+  This section allows the user to rank each criteria and input in a value for the relevant option and criterion.
+
+  Each criterion is assigned a unique rank using dropdown boxes. If a rank has already been allocated to a criterion it will not be available to downstream criteria. 
+  
+  A slider bar will appear for each option and each criterion allowing the user to choose from a 1-5 scale.
+
+  This section will be blank unless at one criterion has been selected and one option input. 
+results_help: |
+  This section will outline the results of the Multi-Criteria Analysis. Results include:
+
+  - A graph (Summary of Option Rating) showing the raw input scores per option for each of the criteria assumed. 
+  - A table (Summary of Option Scoring) showing the scoring for each of the options included.
+  - A table (Summary of Option Rankings) showing the final rankings of each of the options included.
+
+  The best option based on the above ranking and scoring will be output.
+
+  A table showing the best option/s for each category is also output. Note that multiple options will be output in case of equal scoring.
+
+  A checkbox allowing the user to exclude the base case from the analysis has also been provided.
+sensitivity_test_help: |
+  This section allows the user to easily undertake sensitivity testing on the results to identify the impact on the preferred option.
+
+  To undertake the sensitivity test, simply input in new % value into the text box. Results will automatically change based.
+
+  Up to four sensitivity test options have been provided.
+sensitivity_test_desc: >
+  Sensitivity analysis can be undertaken to assess whether the highest option remains the best after adjusting 
+  criteria weightings
+glossary:
+  - name: NOS
+    definition: Network Optimisation Solution
+  - name: Option
+    definition: Choice of NOS
+  - name: Criteria
+    definition: Used to determine the best option
+  - name: Weightings
+    definition: Assigned based on the rank of criteria
+  - name: Base Case
+    definition: Do nothing scenario
+
