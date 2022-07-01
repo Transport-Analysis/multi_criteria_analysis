@@ -23,6 +23,7 @@ class PageConfig(BaseModel):
     criteria_desc: str
     ranking_help: str
     results_help: str
+    results_desc: str
     sensitivity_test_help: str
     sensitivity_test_desc: str
     glossary: List[GlossaryConfig]

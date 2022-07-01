@@ -50,6 +50,8 @@ ranking_help: |
   A slider bar will appear for each option and each criterion allowing the user to choose from a 1-5 scale.
 
   This section will be blank unless at one criterion has been selected and one option input. 
+results_desc: > 
+  This section provides a summary of the scoring and ranking per criteria and options chosen
 results_help: |
   This section will outline the results of the Multi-Criteria Analysis. Results include:
 
