@@ -77,7 +77,7 @@ glossary:
   - name: NOS
     definition: Network Optimisation Solution
   - name: Option
-    definition: Choice of NOS
+    definition: A possible solution to address the identified problem (which could be a NOS)
   - name: Criteria
     definition: Used to determine the best option
   - name: Weightings
