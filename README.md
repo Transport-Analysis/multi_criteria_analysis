@@ -8,4 +8,4 @@ A requirements txt file has been provided with this repository to outline the py
 
 #### Contact Information
 
-For more information on this MCA Tool, please contact the Network Evaluation team.
+For more information on this MCA Tool, please contact the Network Evaluation & Insights team.
