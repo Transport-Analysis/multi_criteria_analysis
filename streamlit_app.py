@@ -455,25 +455,25 @@ with st.expander("Results", expanded=False):
         st.write('Summary of Unweighted Ratings:')
 
         if not final_user_inputs.empty:
-            fig, ax1 = plt.subplots(figsize=(20, 8))
-            plt.subplots_adjust(bottom=0.2)
-            plt.ylim(0, 6)
-            sns.set_palette("colorblind")
-            plot = sns.barplot(
-                x='Criterion',
-                y='Value',
-                hue='Option',
-                data=updated_user_inputs,
-                ax=ax1
-            )
-            labels = [
-                textwrap.fill(label.get_text(), 12)
-                for label in plot.get_xticklabels()
-            ]
-            plot.set_xticklabels(labels)
-            buf = io.BytesIO()
-            fig.savefig(buf, format="png")
-            st.image(buf)
+            #fig, ax1 = plt.subplots(figsize=(20, 8))
+            #plt.subplots_adjust(bottom=0.2)
+            #plt.ylim(0, 6)
+            #sns.set_palette("colorblind")
+            #plot = sns.barplot(
+            #    x='Criterion',
+            #    y='Value',
+            #    hue='Option',
+            #    data=updated_user_inputs,
+           #     ax=ax1
+            #)
+            #labels = [
+            #    textwrap.fill(label.get_text(), 12)
+            #    for label in plot.get_xticklabels()
+           # ]
+           # plot.set_xticklabels(labels)
+            #buf = io.BytesIO()
+           # fig.savefig(buf, format="png")
+           # st.image(buf)
             
         def adjust_weights(wgts):
             weights_total = sum(wgts)
