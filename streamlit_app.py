@@ -455,6 +455,7 @@ with st.expander("Results", expanded=False):
         st.write('Summary of Unweighted Ratings:')
 
         if not final_user_inputs.empty:
+            pass
             #fig, ax1 = plt.subplots(figsize=(20, 8))
             #plt.subplots_adjust(bottom=0.2)
             #plt.ylim(0, 6)
