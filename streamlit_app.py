@@ -1,5 +1,6 @@
 import io
 import matplotlib.pyplot as plt
+from matplotlib.style import use
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -56,7 +57,7 @@ with st.expander(
         )
         st.markdown('You uploaded a file successfully.')
     else:
-        user_inputs = pd.DataFrame(columns=['Criterion', 'Ranks'])
+        user_inputs = pd.DataFrame(columns=['Criterion', 'Weights'])
         option_description = pd.DataFrame(
             columns=['Option', 'OptionDescription', 'Type']
         )
@@ -361,7 +362,13 @@ with st.expander("Criteria", expanded=False):
         all_criteria_used_df = all_criteria_used_df[
             all_criteria_used_df['Criterion'] != 'Add new criteria'].copy(
         ).reset_index(drop=True)
-        all_criteria_used_df['Ranks'] = 0
+        
+        if not user_inputs.empty:
+            cri_weights = user_inputs['Weights'].to_dict()
+            all_criteria_used_df['Weights'] = all_criteria_used_df['Criterion'].map(cri_weights).astype(float)
+        else:  
+            all_criteria_used_df['Weights'] = 1 / len(all_criteria_used_df)
+            all_criteria_used_df['Weights'] = all_criteria_used_df['Weights'].astype(float)            
 
         st.write('##### Selected Criteria')
         col11, col22 = st.columns([2, 1])
@@ -373,7 +380,6 @@ with st.expander("Criteria", expanded=False):
         pass
 
 st.subheader("5. Criteria Ranking and Option Scoring")
-available_ranks = list(range(1, len(all_criteria_used_df) + 1))
 with st.expander("Criteria Ranking & Scoring", expanded=False):
 
     if st.button("Help", key=5):
@@ -381,22 +387,26 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
         st.sidebar.write(page_config.ranking_help)
 
     updated_user_inputs = []
+    weights = []
+    num_criteria = len(all_criteria_used_df)
     for i, row in all_criteria_used_df.iterrows():
 
         st.subheader(f'{row.Criterion}')
-
-        label = 'Criteria Rank'
-        index = available_ranks.index(
-            row.Ranks) if row.Ranks in available_ranks else 0
         col1, col2, col3, col4 = st.columns([1.5, 1, 1, 1])
-        with col1:
-            all_criteria_used_df.at[i, 'Ranks'] = st.selectbox(
-                label, available_ranks, index, key=f'rank_{row.Criterion}'
-            )
 
+        with col1:
+            weight = st.number_input(
+                label='Criteria Weight',
+                value=row.Weights,
+                min_value=0.00,
+                max_value=1.00,
+                key=f'Weight_{row.Criterion}'
+            )
+            weights.append(weight)
+            
         num_options = max(1, len(output_option_description))
         num_rows_needed = int((num_options / 3))
-
+        
         i = 1
         cols = st.columns(num_options)
         for _, option in output_option_description.iterrows():
@@ -417,11 +427,7 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
 
             updated_user_inputs.append([row.Criterion, option.Option, result])
             i += 1
-
-        available_ranks = [
-            x for x in available_ranks if x not in
-            list(all_criteria_used_df.Ranks.unique())]
-
+    
     updated_user_inputs = pd.DataFrame(
         updated_user_inputs,
         columns=['Criterion', 'Option', 'Value']
@@ -446,7 +452,7 @@ with st.expander("Results", expanded=False):
 
     try:
         st.write(page_config.results_desc)
-        st.write('Summary of Option Rating:')
+        st.write('Summary of Unweighted Ratings:')
 
         if not final_user_inputs.empty:
             fig, ax1 = plt.subplots(figsize=(20, 8))
@@ -468,47 +474,66 @@ with st.expander("Results", expanded=False):
             buf = io.BytesIO()
             fig.savefig(buf, format="png")
             st.image(buf)
+            
+        def adjust_weights(wgts):
+            weights_total = sum(wgts)
+            adjusted_weights = [x / weights_total for x in wgts]
+            return np.array(adjusted_weights)[:, np.newaxis]
 
-        rank_sums = [
-            len(all_criteria_used_df) - x + 1
-            for x in all_criteria_used_df.Ranks
-        ]
-        rank_sums_total = sum(rank_sums)
-        rank_sums = [x / rank_sums_total for x in rank_sums]
-        rank_sums = np.array(rank_sums)[:, np.newaxis]
+        rank_sums = adjust_weights(weights)
+        
+        st.write('Final Weights Used:')
+        final_weights = pd.DataFrame(rank_sums).join(
+            all_criteria_used_df).rename(columns={0: 'Weight'})
+        final_weights = final_weights[
+            ['Category', 'Criterion', 'Weight']].copy().set_index(
+                ['Category', 'Criterion']
+            )
+        final_weights
+        
         options = options = list(final_user_inputs.columns[1:])
         if len(final_user_inputs.columns) > 2 and len(final_user_inputs) > 1:
             user_scores = final_user_inputs.iloc[:, 1:].to_numpy()
-            # to add the base case with score 3
             scores = np.c_[np.ones(len(user_scores))+2, user_scores]
-            scores *= rank_sums
+            
             st.write('Summary of Option Scoring:')
-            scores_total = scores.sum(axis=0)
-            overall_score_df = pd.DataFrame(scores_total).transpose()
-            overall_score_df.columns = ['Base Case'] + options
-            overall_score_df['title'] = 'Score'
-            overall_score_df.set_index('title', inplace=True)
-            overall_score_df = overall_score_df.transpose().sort_values(
-                by='Score', ascending=False
-            )
-            overall_score_df = overall_score_df.style.format(
-                subset=['Score'], formatter="{:.2}"
+            def get_scores_df(srcs, wghts, _options):
+                srcs *= wghts
+                srcs_total = srcs.sum(axis=0)
+                df = pd.DataFrame(srcs_total).transpose()
+                df.columns = ['Base Case'] + _options
+                df['title'] = 'Score'
+                df.set_index('title', inplace=True)
+                df = df.transpose().sort_values(
+                    by='Score', ascending=False
+                )
+                df = df.style.format(
+                    subset=['Score'], formatter="{:.2}"
+                )
+                return df, srcs_total
+                
+            overall_score_df, scores_total = get_scores_df(
+                scores, rank_sums, options
             )
             overall_score_df
 
             # Summary of Option Rankings ####
             st.write('Summary of Option Rankings:')
-            tmp = (-scores_total).argsort()
-            final_ranks = np.empty_like(tmp)
-            final_ranks[tmp] = np.arange(len(scores_total))
-            final_ranks += 1
-            overall_rank_df = pd.DataFrame(final_ranks).transpose()
-            overall_rank_df.columns = ['Base Case'] + options
-            overall_rank_df['title'] = 'Rank'
-            overall_rank_df.set_index('title', inplace=True)
-            overall_rank_df = overall_rank_df.transpose().sort_values(
-                by='Rank'
-            )
+            def get_ranks_df(_scores_total, _options):
+                tmp = (-_scores_total).argsort()
+                final_ranks = np.empty_like(tmp)
+                final_ranks[tmp] = np.arange(len(scores_total))
+                final_ranks += 1
+                df = pd.DataFrame(final_ranks).transpose()
+                df.columns = ['Base Case'] + _options
+                df['title'] = 'Rank'
+                df.set_index('title', inplace=True)
+                df = df.transpose().sort_values(
+                    by='Rank'
+                )
+                return df
+            
+            overall_rank_df = get_ranks_df(scores_total, options)
             overall_rank_df
 
             # Best Option ####
@@ -567,6 +592,12 @@ with st.expander("Results", expanded=False):
                 values='value'
             )
             output_best_scores_df = output_best_scores_df.join(best_scores_df)
+            
+            # update weights
+            fw = final_weights.reset_index().set_index(
+                'Criterion')['Weight'].to_dict()
+            output_user_inputs['Weights'] = output_user_inputs.index.to_series(
+                ).map(fw)
 
             # Functionality to Export Results ####
             # Download data
@@ -605,60 +636,31 @@ with st.expander("Sensitivity Test", expanded=False):
         st.sidebar.write(page_config.sensitivity_test_help)
 
     st.write(page_config.sensitivity_test_desc)
-
-    value = [-50, -25, 25, 50]
-    input_value = []
-
+    adj_weights = []
     try:
-        score = pd.DataFrame(user_scores)
-        new_rank_sums = []
-        cols = st.columns(4)
-        for i in range(len(cols)):
-            input = cols[i].number_input(
-                'Change in Criteria Weighting Scenario' + str(i+1) + ' (in %)',
-                min_value=-75,
-                max_value=75,
-                step=5,
-                value=value[i],
-                key=i
-            )
-            input_value.append(input)
-            new_rank_sums.append(rank_sums*(1+input/100))
+        cols = st.columns(num_criteria)
+        col1, col2, col3, col4 = st.columns([1.5, 1, 1, 1])
+        for i, row in output_user_inputs.reset_index().iterrows():
+            with col1:
+                adj_weight = st.number_input(
+                    label=f'Adjusted Weight for {row.Criterion}',
+                    min_value=0.00,
+                    max_value=1.00,
+                    value=row.Weights,
+                    key=f'adj_weight{row.Criterion}'
+                )
+        adj_weights.append(adj_weight)
 
-        # New Ranks
-        scenario_results = []
-        for scenario in range(0, len(new_rank_sums)):
-            columns = []
-            for r1 in output_user_inputs.Ranks:
-                rows = []
-                for r2 in output_user_inputs.Ranks:
-                    if r1 == r2:
-                        rank_input = new_rank_sums[scenario][r1-1]
-                        rows.append(rank_input)
-                    else:
-                        rank_input = rank_sums[r2-1]*(
-                            1-new_rank_sums[scenario][r1-1]
-                        )/(1-rank_sums[r1-1])
-
-                        rows.append(rank_input)
-                columns.append(rows)
-            df = pd.DataFrame(columns)
-
-            new_scoring = []
-            for option in score:
-                new_score = (score[option]*df).transpose().sum().astype(float)
-                new_scoring.append(new_score)
-            new_scoring = pd.DataFrame(new_scoring).transpose()
-            new_scoring.columns = options
-            new_scoring["Base Case"] = 3
-            new_scoring[str(input_value[scenario])+' %'] = new_scoring.idxmax(
-                axis=1
-            )
-            new_scoring = new_scoring[str(input_value[scenario])+' %']
-            scenario_results.append(new_scoring)
-        scenario_results = pd.DataFrame(scenario_results).transpose()
-        scenario_results.index = selected_criteria["Criterion"]
-        st.subheader('Sensitivity Analysis Summary')
-        st.dataframe(scenario_results)
+        # new adjusted weights
+        new_weights = adjust_weights(adj_weights)
+        
+        st.write('Summary of Option Scoring: Sensitivity Test')
+        new_scores_df, new_scores_total = get_scores_df(scores, new_weights, options)
+        new_scores_df
+        
+        st.write('Summary of Option Rankings: Sensitivity Test')
+        new_ranks_df = get_ranks_df(new_scores_total, options)
+        new_ranks_df
+        
     except:
         pass
