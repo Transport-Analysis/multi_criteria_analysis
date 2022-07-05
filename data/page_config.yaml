@@ -45,7 +45,7 @@ criteria_desc: >
 ranking_help: |
   This section allows the user to rank each criteria and input in a value for the relevant option and criterion.
 
-  Each criterion is assigned a unique rank using dropdown boxes. If a rank has already been allocated to a criterion it will not be available to downstream criteria. 
+  Each criterion is assigned a weight will will be used to calculate results. Weights will be automatically adjusted within the analysis to sum to 1.
   
   A slider bar will appear for each option and each criterion allowing the user to choose from a 1-5 scale.
 
@@ -67,9 +67,8 @@ results_help: |
 sensitivity_test_help: |
   This section allows the user to easily undertake sensitivity testing on the results to identify the impact on the preferred option.
 
-  To undertake the sensitivity test, simply input in new % value into the text box. Results will automatically change based.
+  To undertake the sensitivity test, simply input in new weighting value into the text box.
 
-  Up to four sensitivity test options have been provided.
 sensitivity_test_desc: >
   Sensitivity analysis can be undertaken to assess whether the highest option remains the best after adjusting 
   criteria weightings
