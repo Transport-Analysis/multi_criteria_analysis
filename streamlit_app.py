@@ -184,8 +184,7 @@ with st.expander("Define Options", expanded=False):
     st.write('Select Your Own Options')
     # secondly allow for new options to be included
     i = len(
-        [i for i in existing_options
-         if existing_options[2] == 'User defined option']) + 1
+        [i for i in existing_options if i[2] == 'User defined option']) + 1
     while True:
         col1, col2 = st.columns(2)
         with col1:
@@ -218,8 +217,8 @@ with st.expander("Define Options", expanded=False):
         st.write('')
 
     uploaded_nof_solutions = [
-        n[0] for n in existing_options
-        if existing_options[2] == 'Predefined option']
+        n[0] for n in existing_options if n[2] == 'Predefined option'
+    ]
 
     nof_i = 0
     for nof_sol in nof_solutions:
@@ -237,7 +236,7 @@ with st.expander("Define Options", expanded=False):
             if checked:
                 option_comment = [
                     n[1] for n in existing_options
-                    if existing_options[0] == nof_sol.Solution][0]
+                    if n[0] == nof_sol.Solution][0]
                 with col3:
                     ns = nof_sol.Solution
                     comment = st.text_input(
@@ -414,7 +413,9 @@ with st.expander("Criteria Ranking & Scoring", expanded=False):
             key = f'scores_{row.Criterion}_{option.Option}'
             if option.Option in user_inputs.columns:
                 key_value = user_inputs[
-                    user_inputs['Criterion'] == row.Criterion][option.Option]
+                    user_inputs.index == row.Criterion].loc[
+                        row.Criterion, option.Option
+                    ]
             else:
                 key_value = 3
 
@@ -456,25 +457,23 @@ with st.expander("Results", expanded=False):
 
         if not final_user_inputs.empty:
             pass
-            #fig, ax1 = plt.subplots(figsize=(20, 8))
-            #plt.subplots_adjust(bottom=0.2)
-            #plt.ylim(0, 6)
-            #sns.set_palette("colorblind")
-            #plot = sns.barplot(
-            #    x='Criterion',
-            #    y='Value',
-            #    hue='Option',
-            #    data=updated_user_inputs,
-           #     ax=ax1
-            #)
-            #labels = [
-            #    textwrap.fill(label.get_text(), 12)
-            #    for label in plot.get_xticklabels()
-           # ]
-           # plot.set_xticklabels(labels)
-            #buf = io.BytesIO()
-           # fig.savefig(buf, format="png")
-           # st.image(buf)
+            fig, ax1 = plt.subplots(figsize=(20, 8))
+            plt.subplots_adjust(bottom=0.2)
+            plt.ylim(0, 6)
+            sns.set_palette("colorblind")
+            plot = sns.barplot(
+                x='Criterion',
+                y='Value',
+                hue='Option',
+                data=updated_user_inputs,
+                ax=ax1
+            )
+            labels = [
+                textwrap.fill(label.get_text(), 12)
+                for label in plot.get_xticklabels()
+            ]
+            plot.set_xticklabels(labels)
+            st.pyplot(fig)
             
         def adjust_weights(wgts):
             weights_total = sum(wgts)
