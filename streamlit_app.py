@@ -188,6 +188,7 @@ with st.expander("Define Options", expanded=False):
                 else:
                     raise NotImplementedError(
                         'Only user defined and predefined options included')
+            i += 1
 
             existing_options.append([option_name, option_desc, option_type])
 
