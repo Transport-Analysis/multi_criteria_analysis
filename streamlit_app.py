@@ -77,11 +77,19 @@ with st.expander("Project Description", expanded=False):
 
     input_responses = []
     categories_used = []
-    options = [p.Options for p in import_proj_desc if p.Options is not None][0]
 
     if not project_description.empty:
 
-        default = str(project_description.iloc[4, 4])
+        key_objs = project_description[
+            project_description['Category'] == 'Key Objectives'].copy(
+            ).reset_index(drop=True)
+        ]
+        default_list = key_objs.loc[0, 'Responses'].split(',')
+
+        s = key_objs.loc[0, 'Options']
+        options_list = s.replace('[', '').replace(']','').replace("'","").split(',')
+        options = [o.strip() for o in options_list]
+
         for _, row in project_description.iterrows():
             if row.Category in categories_used:
                 st.write('')
@@ -99,7 +107,7 @@ with st.expander("Project Description", expanded=False):
                     [x for x in st.multiselect(
                         label=project_description.iloc[4, 2],
                         options=options,
-                        default=default
+                        default=default_list
                     )]
                 )
 
@@ -152,20 +160,22 @@ with st.expander("Define Options", expanded=False):
     if not option_description.empty:
 
         st.write('Uploaded User Options')
-
+ 
+        i = 1
         for _, row in option_description.iterrows():
 
             if row.Type == "User defined option":
                 col1, col2 = st.columns(2)
                 with col1:
                     option_name = st.text_input(
-                        'User defined option', row.Option, key=row.Option
+                        'User defined option', row.Option,
+                        key=f'{row.Option}_{i}'
                     )
                 with col2:
                     option_desc = st.text_input(
                         'User defined option comment',
                         row.OptionDescription,
-                        key=row.OptionDescription
+                        key=f'{row.OptionDescription}_{i}'
                     )
                 option_type = 'User defined option'
             elif row.Type == 'Predefined option':
