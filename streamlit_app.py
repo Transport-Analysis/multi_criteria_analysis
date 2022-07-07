@@ -104,7 +104,7 @@ with st.expander("Project Description", expanded=False):
                 )
 
             input_responses.append(
-                [row.Category, row.Question, row.Options, categories_used])
+                [row.Category, row.Question, row.Options, responses])
 
     else:
 
