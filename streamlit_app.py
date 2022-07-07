@@ -81,9 +81,9 @@ with st.expander("Project Description", expanded=False):
     if not project_description.empty:
 
         key_objs = project_description[
-            project_description['Category'] == 'Key Objectives'].copy(
-            ).reset_index(drop=True)
-        ]
+            project_description['Category'] == 'Key Objectives'
+        ].copy().reset_index(drop=True)
+
         default_list = key_objs.loc[0, 'Responses'].split(',')
 
         s = key_objs.loc[0, 'Options']
