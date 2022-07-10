@@ -1,10 +1,11 @@
 page_header: 'Smarter Solutions: Multi-Criteria Analysis (MCA) Tool'
 page_intro: >
-  This MCA tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network 
+  This MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network 
   Optimisation Solutions (NOS) are included within the assessment process. The MCA Tool applies a standardised 
   consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right 
   infrastructure at the right time and aligning with government policy direction for investment as outlined in 
-  the Queensland Government's State Infrastructure Plan.
+  the Queensland Government's State Infrastructure Plan. To apply the MCA Tool, follow the seven (7) step process
+  outlined in the diagram below.
 import_tool_help: |
   Use this function to import a previously configured project which has been exported to Excel.
   
