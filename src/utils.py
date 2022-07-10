@@ -147,13 +147,13 @@ def import_project_descriptions():
 
 
 def import_nof_solutions():
-    cfg = os.path.join(os.getcwd(), 'data', 'NOF_solutions.yaml')
+    cfg = os.path.join(os.getcwd(), 'data', 'nof_solutions.yaml')
     cfg_contents = load_config(cfg)
     return NOFSolutionsList(**cfg_contents)
 
 
 def import_criteria_list():
-    cfg = os.path.join(os.getcwd(), 'data', 'inputs.yaml')
+    cfg = os.path.join(os.getcwd(), 'data', 'criteria.yaml')
     cfg_contents = load_config(cfg)
     return InputsList(**cfg_contents)
 
