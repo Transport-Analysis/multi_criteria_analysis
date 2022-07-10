@@ -288,7 +288,7 @@ with st.expander("Define Options", expanded=False):
 
 # Step 4. Define Criteria ####
 st.subheader("4. Define Criteria")
-with st.expander("Criteria", expanded=False):
+with st.expander("Define Criteria", expanded=False):
 
     if st.button("Help", key=4):
         st.sidebar.markdown("**Criteria Help**")
@@ -390,7 +390,7 @@ with st.expander("Criteria", expanded=False):
         pass
 
 st.subheader("5. Criteria Ranking and Option Scoring")
-with st.expander("Criteria Ranking & Scoring", expanded=False):
+with st.expander("Criteria Ranking and Option Scoring", expanded=False):
 
     if st.button("Help", key=5):
         st.sidebar.markdown("**Rankings Help**")
@@ -641,7 +641,7 @@ with st.expander("Results", expanded=False):
 
 # Step 7. Sensitivity Analysis ####
 st.subheader("7. Sensitivity Analysis")
-with st.expander("Sensitivity Test", expanded=False):
+with st.expander("Sensitivity Analysis", expanded=False):
     if st.button("Help", key=7):
         st.sidebar.markdown("**Sensitivity Test Help**")
         st.sidebar.write(page_config.sensitivity_test_help)
