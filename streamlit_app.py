@@ -287,7 +287,7 @@ with st.expander("Define Options", expanded=False):
     )
 
 # Step 4. Define Criteria ####
-st.subheader("4. Criteria")
+st.subheader("4. Define Criteria")
 with st.expander("Criteria", expanded=False):
 
     if st.button("Help", key=4):
