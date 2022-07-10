@@ -2,7 +2,7 @@ NOFsolutions:
   - Solution: Bus priority lanes    
     Comment: Bus lanes are roadway lanes dedicated to bus use and servicing priority bus movement along a traffic corridor
   - Solution: Public transport jump lanes
-    Comment: Public transport jump lanes are dedicated stretch of roadway that provides public transport priority at an intersection approach"
+    Comment: Public transport jump lanes are dedicated stretch of roadway that provides public transport priority at an intersection approach
   - Solution: Transit signal priority
     Comment: Transit signal priority is the modification of either the operations or the environment for public transport vehicles moving through an intersection
   - Solution: Park and ride facilities
