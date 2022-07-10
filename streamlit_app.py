@@ -286,7 +286,7 @@ with st.expander("Define Options", expanded=False):
         all_options, columns=['Option', 'OptionDescription', 'Type']
     )
 
-# Step 4. Criteria ####
+# Step 4. Define Criteria ####
 st.subheader("4. Criteria")
 with st.expander("Criteria", expanded=False):
 
