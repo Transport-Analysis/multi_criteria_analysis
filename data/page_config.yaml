@@ -83,11 +83,11 @@ glossary:
   - name: NOS
     definition: Network Optimisation Solution
   - name: Option
-    definition: A possible solution to address the identified problem (which could be a NOS)
+    definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
   - name: Criteria
     definition: Used to determine the best option
   - name: Weightings
     definition: Assigned based on the rank of criteria
   - name: Base Case
-    definition: Do nothing scenario
+    definition: The expected outcomes of a ‘do-minimum’ situation, assuming the continued operation of the network under current management practices.
 
