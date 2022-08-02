@@ -377,7 +377,7 @@ with st.expander("Define Criteria", expanded=False):
             cri_weights = user_inputs['Weights'].to_dict()
             all_criteria_used_df['Weights'] = all_criteria_used_df['Criterion'].map(cri_weights).astype(float)
         else:  
-            all_criteria_used_df['Weights'] = 1 / len(all_criteria_used_df)
+            all_criteria_used_df['Weights'] = 0
             all_criteria_used_df['Weights'] = all_criteria_used_df['Weights'].astype(float)            
 
         st.write('##### Selected Criteria')
