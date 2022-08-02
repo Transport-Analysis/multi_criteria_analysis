@@ -377,7 +377,7 @@ with st.expander("Define Criteria", expanded=False):
             cri_weights = user_inputs['Weights'].to_dict()
             all_criteria_used_df['Weights'] = all_criteria_used_df['Criterion'].map(cri_weights).astype(float)
         else:  
-            all_criteria_used_df['Weights'] = 0
+            all_criteria_used_df['Weights'] = 0.01
             all_criteria_used_df['Weights'] = all_criteria_used_df['Weights'].astype(float)            
 
         st.write('##### Selected Criteria')
@@ -408,7 +408,7 @@ with st.expander("Criteria Ranking and Option Scoring", expanded=False):
             weight = st.number_input(
                 label='Criteria Weight',
                 value=row.Weights,
-                min_value=0.00,
+                min_value=0.01,
                 max_value=1.00,
                 key=f'Weight_{row.Criterion}'
             )
@@ -655,7 +655,7 @@ with st.expander("Sensitivity Analysis", expanded=False):
             with col1:
                 adj_weight = st.number_input(
                     label=f'Adjusted Weight for {row.Criterion}',
-                    min_value=0.00,
+                    min_value=0.01,
                     max_value=1.00,
                     value=row.Weights,
                     key=f'adj_weight{row.Criterion}'
