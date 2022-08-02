@@ -1,11 +1,17 @@
 page_header: 'Smarter Solutions: Multi-Criteria Analysis (MCA) Tool'
 page_intro: >
-  This MCA Tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network 
-  Optimisation Solutions (NOS) are included within the assessment process. The MCA Tool applies a standardised 
-  consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right 
-  infrastructure at the right time and aligning with government policy direction for investment as outlined in 
-  the Queensland Government's State Infrastructure Plan. To apply the MCA Tool, follow the seven (7) step process
-  outlined in the diagram below.
+  Network Optimisation Framework (NOF): Multi-Criteria Analysis (MCA) Tool
+
+  Welcome to the Network Optimisation Framework (NOF): Multi-Criteria Analysis (MCA) Tool developed by the Department of Transport and Main Roads, Queensland. This tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network Optimisation Solutions (NOS) are included within the assessment process by evaluating the overall performance of short-listed options against a series of selected criteria.
+
+  The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
+
+  To apply the MCA Tool, follow the seven (7) step process outlined in the diagram below.
+
+  'Help' buttons are provided throughout the tool. These provide additional information on what inputs are required and how the tool uses them. Clicking these buttons will open the left sidebar. If the sidebar is not visible, click the arrow on the top left of the screen to expand it.
+
+  If you require additional support or have any questions, please contact: Transport_Analysis_Requests@tmr.qld.gov.au.
+
 import_tool_help: |
   Use this function to import a previously configured project which has been exported to Excel.
   
@@ -77,11 +83,11 @@ glossary:
   - name: NOS
     definition: Network Optimisation Solution
   - name: Option
-    definition: A possible solution to address the identified problem (which could be a NOS)
+    definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
   - name: Criteria
     definition: Used to determine the best option
   - name: Weightings
     definition: Assigned based on the rank of criteria
   - name: Base Case
-    definition: Do nothing scenario
+    definition: The expected outcomes of a ‘do-minimum’ situation, assuming the continued operation of the network under current management practices.
 
