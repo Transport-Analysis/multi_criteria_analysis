@@ -120,7 +120,7 @@ def slider_colour():
 
 def import_page_image():
     image = Image.open(
-        os.path.join(os.getcwd(), 'assets', 'mca_process_v2.png')
+        os.path.join(os.getcwd(), 'assets', 'mca_process.png')
     )
     col1, col2, col3 = st.columns([1, 5, 0.2])
     with col2:
