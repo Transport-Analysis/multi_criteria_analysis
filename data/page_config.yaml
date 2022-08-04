@@ -18,59 +18,52 @@ import_tool_help: |
   Note that currently only XLSX formats are supported.
 
 project_details_help: |
-  This section outlines the key decision and network context for the project, including the key objectives. 
-
-  To input a new project, simply enter the relevant information into the provided text boxes and select the key objectives for the project.
-
-  If you have uploaded an existing project, previously input fields will be automatically filled within the text boxes.
+  This section allows the user to provide a clear project definition before beginning the MCA process.
+    
+  A clear project definition will ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity.
+    
+  If a clear project definition has been developed in other documentation, this section can be skipped.
 project_details_desc: >
-  The project must be clearly defined within the MCA to ensure that appropriate options are short-listed 
-  for evaluation and that the criteria selected for assessment reflect the nature of the service requirement 
-  or opportunity. Accordingly, the project should be defined in terms of:
+  Before beginning the MCA process a clear project definition is crucial to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement. If not already considered elsewhere, please develop a clear project definition by addressing the following questions.
+  Is there any complementary infrastructure investment occuring within close proximity?
+  What is the key objective the project is being implemented to achieve?
 options_help: |
-  Options can be included either by selecting your own custom options or by using one or more of the predefined options included.
+  Options can be included either by entering options custom to your project or selecting from the predefined NOS options.
 
-  To add a new option, simply add the new option name and description within the provided text boxes, pressing Enter to apply.
-  Once a new option has been added, a new option box will automatically be generated underneath. This can be left blank.
+  To add a new custom option, simply add the option name and description within the provided text boxes, pressing Enter to apply. Once an option has been added, a new option box will automatically be generated underneath. This can be left blank if there are no additional options to add.  
 
-  Pre-defined options have been provided under the 'Predefined Options' heading.
+  To select from predefined NOS options, tick the corresponding check boxes.
+ 
+  Note that at least two options must be included in order to produce the final MCA results.
 
-  Note that at least two options must be included in order to produce Results.
 criteria_help: |
-  A table of predefined criteria has been included, including information on whether the criterion is mandatory within the NOS evaluation process.
-  To select from the predefined criteria simply use the provided select box, choosing the revelant Row ID of the criteria to be included.
+  There are three options for selecting criteria:
 
-  Custom user defined criteria can also be included using the provided text boxes. To include a custom criterion, ensure that both the criterion and category is included.
+  1. Use the select box to choose from the list of predefined criteria in the table.
 
-  An option has been included which allows the user to easily include all NOS Option's mandatory criteria within the analysis. 
+  2. Use the text box to add custom criteria. Ensure both the criterion and category boxes are completed.
 
-  A list of selected criteria will be output at the bottom of the criteria section.
+  3. Tick the check box to include the list of predefined criteria considered mandatory when assessing NOS options.
+
+  A list of selected criteria will be output at the bottom of this section.
 
 criteria_desc: >
-  Various criteria are mandatory when considering an NOS in the evaluation process. Additional criteria relating to 
-  intersection delay, public transport patronage and freight should be selected where appropriate.
+  This section allows the user to select the criteria that will be applied to score each option.
+  Note: Various criteria are mandatory when considering a NOS option in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate.
 ranking_help: |
-  This section allows the user to rank each criteria and input in a value for the relevant option and criterion.
-
-  Each criterion is assigned a weight will will be used to calculate results. Weights will be automatically adjusted within the analysis to sum to 1.
-  
-  A slider bar will appear for each option and each criterion allowing the user to choose from a 1-5 scale.
-
-  This section will be blank unless at one criterion has been selected and one option input. 
+  This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
 results_desc: > 
   This section provides a summary of the scoring and ranking per criteria and options chosen
 results_help: |
-  This section will outline the results of the Multi-Criteria Analysis. Results include:
+  This section outlines the results of the MCA. Results include:
 
-  - A graph (Summary of Option Rating) showing the raw input scores per option for each of the criteria assumed. 
-  - A table (Summary of Option Scoring) showing the scoring for each of the options included.
-  - A table (Summary of Option Rankings) showing the final rankings of each of the options included.
+  - A graph showing the options scores for each of the criteria. 
+  - A table showing the final scoring and ranking of each option.
+  - A table showing the best option/s overall and each category. 
+ 
+  Note that multiple options will be output in case of equal scoring. Additionally, users can exclude the Base Case by ticking the checkbox..
 
-  The best option based on the above ranking and scoring will be output.
-
-  A table showing the best option/s for each category is also output. Note that multiple options will be output in case of equal scoring.
-
-  A checkbox allowing the user to exclude the base case from the analysis has also been provided.
+  Note: Options that score near or below the Base Case should be further evaluated to assess the viability of these options to deliver value for money and material improvements in network performance (or meet future service requirements).
 sensitivity_test_help: |
   This section allows the user to easily undertake sensitivity testing on the results to identify the impact on the preferred option.
 
@@ -80,14 +73,10 @@ sensitivity_test_desc: >
   Sensitivity analysis can be undertaken to assess whether the highest option remains the best after adjusting 
   criteria weightings
 glossary:
-  - name: NOS
-    definition: Network Optimisation Solution
-  - name: Option
-    definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
-  - name: Criteria
-    definition: Used to determine the best option
-  - name: Weightings
-    definition: Assigned based on the rank of criteria
   - name: Base Case
     definition: The expected outcomes of a ‘do-minimum’ situation, assuming the continued operation of the network under current management practices.
-
+  - name: Option
+    definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
+  - name: Network Optimisation Solutions (NOS)
+    definition: Initiatives that can improve the functioning of the existing transport network without delivering significant new infrastructure.
+  
