@@ -8,7 +8,7 @@ CriteriaList:
     Criterion: Operation and Maintenance Costs
     Indicator: Estimated cost of whole-of-life asset operation and maintenance ($)
     Measure: $
-    NOS_mandatory: False
+    NOS_mandatory: True
   - Category: Economic Data
     Criterion: End-to-end cost
     Indicator: Describe impact on direct end-to-end cost or price of travel (incl. amenity)
@@ -18,7 +18,7 @@ CriteriaList:
     Criterion: Road User Vehicle Operating Costs
     Indicator: Estimated change in vehicle operating costs ($/pkt)
     Measure: $/pkt
-    NOS_mandatory: True
+    NOS_mandatory: False
   - Category: Economic Data
     Criterion: Rapid BCR
     Indicator: Rapid Benefit Cost Ratio 
@@ -38,12 +38,12 @@ CriteriaList:
     Criterion: Travel Time Reliability
     Indicator: Impact on time travel reliability, measured by the percent variation in travel time (% Variation)
     Measure: '% Variation'
-    NOS_mandatory: True    
+    NOS_mandatory: False    
   - Category: Traffic Performance
     Criterion: LOS
     Indicator: Impact on transport network performance as captured by the level of service rating (A-F LOS Scale)
     Measure: A-F LOS Scale
-    NOS_mandatory: False
+    NOS_mandatory: True
   - Category: Traffic Performance
     Criterion: Intersection Delay
     Indicator: Change in intersection delay (min)
@@ -58,12 +58,12 @@ CriteriaList:
     Criterion: Active transport (Cyclists/Pedestrians)
     Indicator: Describe impact on active transport users
     Measure: Descriptive
-    NOS_mandatory: True
+    NOS_mandatory: False
   - Category: Traffic Performance
     Criterion: Performance Horizon
     Indicator: Performance of the option over time, as measured by the duration of benefits (years)
     Measure: Years
-    NOS_mandatory: False
+    NOS_mandatory: True
   - Category: Traffic Performance
     Criterion: Amenity of travel
     Indicator: Describe change in the perceived quality or amenity of travel
@@ -106,19 +106,19 @@ CriteriaList:
     NOS_mandatory: False
   - Category: Construction
     Criterion: Geotechnical Risk
-    Indicator:
+    Indicator: Level of risk arising from hazards relating to ground movement
     Measure:
-    NOS_mandatory: True      
+    NOS_mandatory: False      
   - Category: Construction
     Criterion: Ease of Construction
     Indicator: Level of political and construction risk resulting in delays and disruptions during construction
     Measure:
-    NOS_mandatory: True      
+    NOS_mandatory: False      
   - Category: Construction
     Criterion: Stageability
     Indicator: Ability for the option to be implemented in discrete stages over time
     Measure: Binary
-    NOS_mandatory: False
+    NOS_mandatory: True
   - Category: Environment
     Criterion: Noise and Air Quality
     Indicator: Impact on noise and air quality
@@ -163,7 +163,7 @@ CriteriaList:
     Criterion: Severance
     Indicator: Impact on community severance
     Measure: Descriptive
-    NOS_mandatory: True    
+    NOS_mandatory: False    
   - Category: Social Factors
     Criterion: Regional development
     Indicator: Change in the economic and social impact of the transport system on regional development
