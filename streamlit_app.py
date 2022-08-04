@@ -192,7 +192,7 @@ with st.expander("Define Options", expanded=False):
 
             existing_options.append([option_name, option_desc, option_type])
 
-    st.write('Select Your Own Options')
+    st.write('Use this section to list the options being assessed.')
     # secondly allow for new options to be included
     i = len(
         [i for i in existing_options if i[2] == 'User defined option']) + 1
