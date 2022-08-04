@@ -218,14 +218,14 @@ with st.expander("Define Options", expanded=False):
             i += 1
 
     # finally load the pre-defined options
-    st.write('Predefined Options')
+    st.write('Choose from predefined NOS options:')
     col1, col2, col3 = st.columns([1, 1, 3])
-    with col1:
-        st.write('Relevant Option?')
-    with col2:
-        st.write('NOS')
-    with col3:
-        st.write('')
+    #with col1:
+    #    st.write('Relevant Option?')
+    #with col2:
+    #    st.write('NOS')
+    #with col3:
+    #    st.write('')
 
     uploaded_nof_solutions = [
         n[0] for n in existing_options if n[2] == 'Predefined option'
