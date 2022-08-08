@@ -402,7 +402,7 @@ with st.expander("Criteria Weights", expanded=False):
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
-                max_value=1.00,
+                max_value=1.00, help='Weights do not need to sum to 1.', 
                 key=f'Weight_{row.Criterion}')
             
         else:
@@ -410,7 +410,7 @@ with st.expander("Criteria Weights", expanded=False):
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
-                max_value=1.00,
+                max_value=1.00, help='Weights do not need to sum to 1.', 
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
 
