@@ -200,11 +200,11 @@ with st.expander("Define Options", expanded=False):
         col1, col2 = st.columns(2)
         with col1:
             new_option = st.text_input(
-                f'What is option {i}?', help='Add new option', key=f'new_option{i}')
+                f'What is option {i}?', 'Add new option', key=f'new_option{i}')
         with col2:
             new_option_comment = st.text_area(
                 'Option description',
-                help='Add new option comment',
+                'Add new option comment',
                 key=f'new_option_comment{i}'
             )
 
