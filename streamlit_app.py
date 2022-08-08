@@ -523,7 +523,7 @@ with st.expander("Results", expanded=False):
                 df = df.transpose().sort_values(
                     by='Score', ascending=False
                 )
-                df = df.style.format(
+                df.style.format(
                     subset=['Score'], formatter="{:.2}"
                 )
                 return df, srcs_total
@@ -549,6 +549,9 @@ with st.expander("Results", expanded=False):
             
             overall_rank_df = get_ranks_df(scores_total, options)
             overall_rank_df
+            
+            combined_df = overall_score_df.join(overall_rank_df)
+            combined_df
 
             # Best Option ####
             st.subheader('Best Option')
