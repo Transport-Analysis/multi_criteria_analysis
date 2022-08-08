@@ -200,16 +200,16 @@ with st.expander("Define Options", expanded=False):
         col1, col2 = st.columns(2)
         with col1:
             new_option = st.text_input(
-                f'What is option {i}?', 'Add new option', key=f'new_option{i}')
+                f'What is option {i}?', value='', help='Add new option', key=f'new_option{i}')
         with col2:
-            new_option_comment = st.text_area(
-                'Option description',
-                'Add new option comment',
+            new_option_comment = st.text_input(
+               'Option description',
+                value='', help='Add new option comment',
                 key=f'new_option_comment{i}'
             )
 
         new_option_type = 'User defined option'
-        if 'Add new option' in (new_option, new_option_comment):
+        if len(new_option) <1:
             break
         else:
             new_options.append(
@@ -220,12 +220,6 @@ with st.expander("Define Options", expanded=False):
     # finally load the pre-defined options
     st.write('Choose from predefined NOS options:')
     col1, col2, col3 = st.columns([1, 1, 3])
-    #with col1:
-    #    st.write('Relevant Option?')
-    #with col2:
-    #    st.write('NOS')
-    #with col3:
-    #    st.write('')
 
     uploaded_nof_solutions = [
         n[0] for n in existing_options if n[2] == 'Predefined option'
@@ -251,7 +245,7 @@ with st.expander("Define Options", expanded=False):
                 with col3:
                     ns = nof_sol.Solution
                     comment = st.text_input(
-                        f'Additional comment on the solution: {ns}',
+                        'Additional comment on the solution',
                         option_comment,
                         key=f'NOFsolutions_cm{ns}',
                         help=option_comment
@@ -267,8 +261,8 @@ with st.expander("Define Options", expanded=False):
                     with col3:
                         ns = nof_sol.Solution
                         option_comment = st.text_input(
-                            f'Additional comment on the solution: {ns}',
-                            "Add comment",
+                            'Additional comment on the solution',
+                            "Add description of solution",
                             key=f'NOFsolutions_cm{ns}',
                             help=nof_sol.Comment
                         )
@@ -318,24 +312,24 @@ with st.expander("Define Criteria", expanded=False):
 
     nos_flag = st.checkbox("Include all NOS Option's mandatory criteria")
     nos_defaults = new_criteria_df.loc[
-        new_criteria_df['NOS Mandatory'] == True].index if nos_flag else ''
+        new_criteria_df['NOS Mandatory'] == True].Criterion if nos_flag else ''
     try:
         if user_inputs.empty:
             selected_rows = st.multiselect(
-                'Select rows:',
-                new_criteria_df.index,
+                'Select criteria:',
+                new_criteria_df.Criterion,
                 default=[x for x in nos_defaults]
             )
+            
         else:
             selected_rows = st.multiselect(
-                'Select rows:', new_criteria_df.index,
+                'Select criteria:', new_criteria_df.Criterion,
                 default=[
                     x for x in
-                    list(set(nos_defaults) | set(input_criteria_df.index))]
+                    list(set(nos_defaults) | set(input_criteria_df.Criterion))]
             )
-        selected_criteria = new_criteria_df.loc[
-            selected_rows].sort_index()[['Category', 'Criterion']]
-
+        selected_criteria = new_criteria_df[new_criteria_df['Criterion'].isin(selected_rows)][["Category", "Criterion"]]
+        
         st.write('Choose your own criteria')
         new_custom_criteria = []
         i = 1
@@ -389,8 +383,8 @@ with st.expander("Define Criteria", expanded=False):
     except:
         pass
 
-st.subheader("5. Criteria Ranking and Option Scoring")
-with st.expander("Criteria Ranking and Option Scoring", expanded=False):
+st.subheader("5. Criteria Weights")
+with st.expander("Criteria Weights", expanded=False):
 
     if st.button("Help", key=5):
         st.sidebar.markdown("**Rankings Help**")
@@ -399,20 +393,31 @@ with st.expander("Criteria Ranking and Option Scoring", expanded=False):
     updated_user_inputs = []
     weights = []
     num_criteria = len(all_criteria_used_df)
-    for i, row in all_criteria_used_df.iterrows():
+    
 
-        st.subheader(f'{row.Criterion}')
-        col1, col2, col3, col4 = st.columns([1.5, 1, 1, 1])
-
-        with col1:
-            weight = st.number_input(
-                label='Criteria Weight',
+    cols = st.columns(4)
+    for i, row in all_criteria_used_df.iterrows():        
+        if i<4:
+            weight = cols[i].number_input(
+                label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
                 max_value=1.00,
-                key=f'Weight_{row.Criterion}'
-            )
-            weights.append(weight)
+                key=f'Weight_{row.Criterion}')
+            
+        else:
+            weight = cols[i-4].number_input(
+                label=f'Criteria Weight - {row.Criterion}',
+                value=row.Weights,
+                min_value=0.01,
+                max_value=1.00,
+                key=f'Weight_{row.Criterion}')
+        weights.append(weight)
+
+    st.header('Scoring')
+    for i, row in all_criteria_used_df.iterrows():
+
+        st.subheader(f'{row.Criterion}')
             
         num_options = max(1, len(output_option_description))
         num_rows_needed = int((num_options / 3))
@@ -524,10 +529,8 @@ with st.expander("Results", expanded=False):
                 return df, srcs_total
                 
             overall_score_df, scores_total = get_scores_df(
-                scores, rank_sums, options
-            )
+                scores, rank_sums, options)
             overall_score_df
-
             # Summary of Option Rankings ####
             st.write('Summary of Option Rankings:')
             def get_ranks_df(_scores_total, _options):
@@ -649,18 +652,25 @@ with st.expander("Sensitivity Analysis", expanded=False):
     st.write(page_config.sensitivity_test_desc)
     adj_weights = []
     try:
-        cols = st.columns(num_criteria)
-        col1, col2, col3, col4 = st.columns([1.5, 1, 1, 1])
+        
+        cols = st.columns(4)
         for i, row in output_user_inputs.reset_index().iterrows():
-            with col1:
-                adj_weight = st.number_input(
+            if i<4:
+                adj_weight = cols[i].number_input(
                     label=f'Adjusted Weight for {row.Criterion}',
                     min_value=0.01,
                     max_value=1.00,
                     value=row.Weights,
                     key=f'adj_weight{row.Criterion}'
                 )
-        adj_weights.append(adj_weight)
+            else:
+                adj_weight = cols[i-4].number_input(
+                    label=f'Adjusted Weight for {row.Criterion}',
+                    min_value=0.01,
+                    max_value=1.00,
+                    value=row.Weights,
+                    key=f'adj_weight{row.Criterion}')
+            adj_weights.append(adj_weight)
 
         # new adjusted weights
         new_weights = adjust_weights(adj_weights)
