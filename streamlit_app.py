@@ -20,7 +20,7 @@ if st.button("Glossary", key=0):
     st.sidebar.subheader("Glossary")
     for glossary_item in page_config.glossary:
         st.sidebar.write(f'{glossary_item.name}: {glossary_item.definition}')
-
+    st.sidebar.write(page_config.link_desc)
 # import main image for page
 utils.import_page_image()
 
@@ -382,19 +382,17 @@ with st.expander("Define Criteria", expanded=False):
 
     except:
         pass
+        
+
 
 st.subheader("5. Criteria Weights")
 with st.expander("Criteria Weights", expanded=False):
-
-    if st.button("Help", key=5):
-        st.sidebar.markdown("**Rankings Help**")
-        st.sidebar.write(page_config.ranking_help)
-
-    updated_user_inputs = []
-    weights = []
-    num_criteria = len(all_criteria_used_df)
     
-
+    if st.button("Help", key=5):
+        st.sidebar.markdown("**Weights Help**")
+        st.sidebar.write(page_config.weights_help)
+    
+    weights = []
     cols = st.columns(4)
     for i, row in all_criteria_used_df.iterrows():        
         if i<4:
@@ -414,7 +412,13 @@ with st.expander("Criteria Weights", expanded=False):
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
 
-    st.header('Scoring')
+st.subheader('6. Scoring')
+with st.expander("Scoring", expanded=False):
+    if st.button("Help", key=6):
+        st.sidebar.markdown("**Scoring Help**")
+        st.sidebar.write(page_config.ranking_help)
+    updated_user_inputs = []   
+    num_criteria = len(all_criteria_used_df)
     for i, row in all_criteria_used_df.iterrows():
 
         st.subheader(f'{row.Criterion}')
@@ -460,10 +464,10 @@ with st.expander("Criteria Weights", expanded=False):
         final_user_inputs, on=['Criterion']
     ).drop(columns=['Category']).set_index(['Criterion'])
 
-st.subheader("6. Results")
+st.subheader("7. Results")
 with st.expander("Results", expanded=False):
 
-    if st.button("Help", key=6):
+    if st.button("Help", key=7):
         st.sidebar.markdown("**Results Help**")
         st.sidebar.write(page_config.results_help)
 
@@ -490,7 +494,8 @@ with st.expander("Results", expanded=False):
             ]
             plot.set_xticklabels(labels)
             st.pyplot(fig)
-            
+            buffer = io.BytesIO()            
+            st.download_button(label='Download Graph', data=buffer.getvalue(), file_name='fig.JPEG', mime='image/jpeg')
         def adjust_weights(wgts):
             weights_total = sum(wgts)
             adjusted_weights = [x / weights_total for x in wgts]
@@ -512,7 +517,7 @@ with st.expander("Results", expanded=False):
             user_scores = final_user_inputs.iloc[:, 1:].to_numpy()
             scores = np.c_[np.ones(len(user_scores))+2, user_scores]
             
-            st.write('Summary of Option Scoring:')
+            
             def get_scores_df(srcs, wghts, _options):
                 srcs *= wghts
                 srcs_total = srcs.sum(axis=0)
@@ -530,9 +535,9 @@ with st.expander("Results", expanded=False):
                 
             overall_score_df, scores_total = get_scores_df(
                 scores, rank_sums, options)
-            overall_score_df
+            
             # Summary of Option Rankings ####
-            st.write('Summary of Option Rankings:')
+            
             def get_ranks_df(_scores_total, _options):
                 tmp = (-_scores_total).argsort()
                 final_ranks = np.empty_like(tmp)
@@ -548,8 +553,8 @@ with st.expander("Results", expanded=False):
                 return df
             
             overall_rank_df = get_ranks_df(scores_total, options)
-            overall_rank_df
             
+            st.write('Summary of Option Rankings and Scoring:')
             combined_df = overall_score_df.join(overall_rank_df)
             combined_df
 
@@ -645,10 +650,10 @@ with st.expander("Results", expanded=False):
     except:
         pass
 
-# Step 7. Sensitivity Analysis ####
-st.subheader("7. Sensitivity Analysis")
-with st.expander("Sensitivity Analysis", expanded=False):
-    if st.button("Help", key=7):
+# Step 8. Sensitivity Analysis ####
+st.subheader("8. Sensitivity Test")
+with st.expander("Sensitivity Test", expanded=False):
+    if st.button("Help", key=8):
         st.sidebar.markdown("**Sensitivity Test Help**")
         st.sidebar.write(page_config.sensitivity_test_help)
 
@@ -678,13 +683,13 @@ with st.expander("Sensitivity Analysis", expanded=False):
         # new adjusted weights
         new_weights = adjust_weights(adj_weights)
         
-        st.write('Summary of Option Scoring: Sensitivity Test')
-        new_scores_df, new_scores_total = get_scores_df(scores, new_weights, options)
-        new_scores_df
         
-        st.write('Summary of Option Rankings: Sensitivity Test')
+        new_scores_df, new_scores_total = get_scores_df(scores, new_weights, options)
         new_ranks_df = get_ranks_df(new_scores_total, options)
-        new_ranks_df
+
+        st.write('Summary of Option Rankings and Scoring: Sensitivity Test')
+        combined_new_df = new_scores_df.join(new_ranks_df)
+        combined_new_df
         
     except:
         pass
