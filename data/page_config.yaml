@@ -50,6 +50,9 @@ criteria_help: |
 criteria_desc: >
   This section allows the user to select the criteria that will be applied to score each option.
   Note: Various criteria are mandatory when considering a NOS option in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate.
+
+weight_help: |
+  This section allows the users to adjust the weights of each criteria
 ranking_help: |
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
 results_desc: > 
@@ -72,11 +75,15 @@ sensitivity_test_help: |
 sensitivity_test_desc: >
   Sensitivity analysis can be undertaken to assess whether the highest option remains the best after adjusting 
   criteria weightings
+  
+link_desc: >
+    Further information regarding MCA and NOS is provided on TMR's website: https://www.tmr.qld.gov.au/business-industry/Business-with-us/Getting-the-most-out-of-existing-infrastructure
+  
 glossary:
   - name: Base Case
-    definition: The expected outcomes of a ‘do-minimum’ situation, assuming the continued operation of the network under current management practices.
+    definition: The expected outcomes of a do-minimum situation, assuming the continued operation of the network under current management practices.
   - name: Option
     definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
   - name: Network Optimisation Solutions (NOS)
     definition: Initiatives that can improve the functioning of the existing transport network without delivering significant new infrastructure.
-  
+
