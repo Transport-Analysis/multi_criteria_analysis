@@ -668,20 +668,30 @@ with st.expander("Sensitivity Test", expanded=False):
     except:
         pass
 
-# Step 9. File Export ####
+# Step 9. File Export 
+# Functionality to Export Results 
 st.subheader("9. File Export")
 with st.expander("File Export", expanded=True):
     if st.button("Help", key=9):
         st.sidebar.markdown("**File Export Help**")
         st.sidebar.write("To be included")
 
-    st.write("To be included")
+    st.write("In development...")
     
-    # Functionality to Export Results ####
     # Download data
     buffer = io.BytesIO()
     writer = pd.ExcelWriter(buffer, engine='xlsxwriter')
+    
+    # If dataframes do not exist, create empty dataframes
+    if output_best_scores_df is not None:
+        output_best_scores_df = pd.Dataframe()
 
+    if overall_score_df is not None:
+        overall_score_df = pd.Dataframe()
+
+    if overall_rank_df is not None:
+        overall_rank_df = pd.Dataframe()        
+        
     dfs_to_export = {
                 'project_description': output_project_description,
                 'option_description': output_option_description,
