@@ -30,9 +30,9 @@ criteria_list = utils.import_criteria_list().CriteriaList
 nof_solutions = utils.import_nof_solutions().NOFsolutions
 
 # Create empty dataframes
-output_best_scores_df = pd.Dataframe()
-overall_score_df = pd.Dataframe()
-overall_rank_df = pd.Dataframe()  
+output_best_scores_df = pd.DataFrame()
+overall_score_df = pd.DataFrame()
+overall_rank_df = pd.DataFrame()  
 
 # Step 1 - import tool
 st.subheader("1. File Import (Optional)")
