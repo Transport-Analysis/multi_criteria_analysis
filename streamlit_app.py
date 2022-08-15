@@ -671,7 +671,7 @@ with st.expander("Sensitivity Test", expanded=False):
 # Step 9. File Export ####
 st.subheader("9. File Export")
 with st.expander("File Export", expanded=True):
-    if st.button("Help", key=8):
+    if st.button("Help", key=9):
         st.sidebar.markdown("**File Export Help**")
         st.sidebar.write("To be included")
 
