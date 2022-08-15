@@ -675,10 +675,38 @@ with st.expander("Sensitivity Test", expanded=False):
     except:
         pass
 
+##### Eccel Download ####    
+st.write("Export data to Excel")
+
+# Download data
+buffer = io.BytesIO()
+writer = pd.ExcelWriter(buffer, engine='xlsxwriter')      
+        
+dfs_to_export = {
+                'project_description': output_project_description,
+                'option_description': output_option_description,
+                'scores_by_category': output_best_scores_df,
+                'overall_scores': overall_score_df,
+                'overall_rank': overall_rank_df,
+                'user_inputs': output_user_inputs
+}
+
+for sheet_name, df in dfs_to_export.items():
+    df.to_excel(writer, sheet_name)
+            
+writer.save()
+
+st.download_button(
+        label='Download data to Excel',
+        data=buffer,
+        file_name="nof-mca-tool.xlsx",
+        mime="application/vnd.ms-excel"
+ )
+"""
 # Step 9. File Export 
 # Functionality to Export Results 
 st.subheader("9. File Export")
-with st.expander("File Export", expanded=True):
+with st.expander("File Export", expanded=False):
     if st.button("Help", key=9):
         st.sidebar.markdown("**File Export Help**")
         st.sidebar.write("To be included")
