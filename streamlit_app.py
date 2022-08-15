@@ -676,7 +676,7 @@ with st.expander("Sensitivity Test", expanded=False):
         pass
 
 # File Export to Excel
-st.markdown("**File Export**")
+st.subheader("File Export")
 st.write("Export session data to Excel to save the results and resume your progress next time.")
     
 # Download data
