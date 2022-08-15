@@ -675,10 +675,9 @@ with st.expander("Sensitivity Test", expanded=False):
     except:
         pass
 
-# Step 9. File Export 
-# Functionality to Export Results 
-st.subheader("9. File Export")
-st.write("In development...")
+# File Export to Excel
+st.markdown("**File Export**")
+st.write("Export session data to Excel to save the results and resume your progress next time.")
     
 # Download data
 buffer = io.BytesIO()
