@@ -29,6 +29,11 @@ import_proj_desc = utils.import_project_descriptions().ProjectDescription
 criteria_list = utils.import_criteria_list().CriteriaList
 nof_solutions = utils.import_nof_solutions().NOFsolutions
 
+# Create empty dataframes
+output_best_scores_df = pd.Dataframe()
+overall_score_df = pd.Dataframe()
+overall_rank_df = pd.Dataframe()  
+
 # Step 1 - import tool
 st.subheader("1. File Import (Optional)")
 with st.expander(
@@ -680,17 +685,7 @@ with st.expander("File Export", expanded=True):
     
     # Download data
     buffer = io.BytesIO()
-    writer = pd.ExcelWriter(buffer, engine='xlsxwriter')
-    
-    # If dataframes do not exist, create empty dataframes
-    if output_best_scores_df is not None:
-        output_best_scores_df = pd.Dataframe()
-
-    if overall_score_df is not None:
-        overall_score_df = pd.Dataframe()
-
-    if overall_rank_df is not None:
-        overall_rank_df = pd.Dataframe()        
+    writer = pd.ExcelWriter(buffer, engine='xlsxwriter')      
         
     dfs_to_export = {
                 'project_description': output_project_description,
