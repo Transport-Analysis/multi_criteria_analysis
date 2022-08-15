@@ -621,32 +621,6 @@ with st.expander("Results", expanded=False):
             output_user_inputs['Weights'] = output_user_inputs.index.to_series(
                 ).map(fw)
 
-            # Functionality to Export Results ####
-            # Download data
-            buffer = io.BytesIO()
-            writer = pd.ExcelWriter(buffer, engine='xlsxwriter')
-
-            dfs_to_export = {
-                'project_description': output_project_description,
-                'option_description': output_option_description,
-                'scores_by_category': output_best_scores_df,
-                'overall_scores': overall_score_df,
-                'overall_rank': overall_rank_df,
-                'user_inputs': output_user_inputs
-            }
-
-            for sheet_name, df in dfs_to_export.items():
-                df.to_excel(writer, sheet_name)
-            
-            writer.save()
-
-            st.download_button(
-                label='Download data to Excel',
-                data=buffer,
-                file_name="nof-mca-tool.xlsx",
-                mime="application/vnd.ms-excel"
-            )
-
     except:
         pass
 
