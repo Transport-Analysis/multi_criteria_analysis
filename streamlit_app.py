@@ -72,7 +72,7 @@ with st.expander(
 
 # Step 2 - Project Details
 st.subheader("2. Project Details")
-with st.expander("Project Description", expanded=False):
+with st.expander("Project Details", expanded=False):
 
     if st.button("Help", key=2):
         st.sidebar.markdown("**Project Description Help**")
