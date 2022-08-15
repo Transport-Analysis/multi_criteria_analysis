@@ -37,7 +37,7 @@ overall_rank_df = pd.DataFrame()
 # Step 1 - import tool
 st.subheader("1. File Import (Optional)")
 with st.expander(
-        'Import data from previously saved attempts (if applicable)',
+        'File Import',
         expanded=False
     ):
 
@@ -45,6 +45,8 @@ with st.expander(
         st.sidebar.markdown("**Import Help**")
         st.sidebar.write(page_config.import_tool_help)
 
+    st.write('Import data from previously saved attempts (if applicable)')
+    
     uploaded_project = st.file_uploader(
         'Upload Saved Excel Project (Files downloaded from this website only)',
         type='xlsx'
@@ -72,7 +74,7 @@ with st.expander(
 
 # Step 2 - Project Details
 st.subheader("2. Project Details")
-with st.expander("Project Description", expanded=False):
+with st.expander("Project Details", expanded=False):
 
     if st.button("Help", key=2):
         st.sidebar.markdown("**Project Description Help**")
