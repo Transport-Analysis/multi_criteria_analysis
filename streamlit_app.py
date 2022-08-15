@@ -287,7 +287,7 @@ with st.expander("Define Options", expanded=False):
         all_options, columns=['Option', 'OptionDescription', 'Type']
     )
 
-# Step 4. Define Criteria ####
+# Step 4. Define Criteria
 st.subheader("4. Define Criteria")
 with st.expander("Define Criteria", expanded=False):
 
@@ -391,7 +391,7 @@ with st.expander("Define Criteria", expanded=False):
         pass
         
 
-
+# Step 5. Criteria Weights
 st.subheader("5. Criteria Weights")
 with st.expander("Criteria Weights", expanded=False):
     
@@ -419,6 +419,7 @@ with st.expander("Criteria Weights", expanded=False):
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
 
+# Step 6. Scoring
 st.subheader('6. Scoring')
 with st.expander("Scoring", expanded=False):
     if st.button("Help", key=6):
@@ -471,6 +472,7 @@ with st.expander("Scoring", expanded=False):
         final_user_inputs, on=['Criterion']
     ).drop(columns=['Category']).set_index(['Criterion'])
 
+# Step 7. Results
 st.subheader("7. Results")
 with st.expander("Results", expanded=False):
 
@@ -502,7 +504,8 @@ with st.expander("Results", expanded=False):
             plot.set_xticklabels(labels)
             st.pyplot(fig)
             buffer = io.BytesIO()            
-            st.download_button(label='Download Graph', data=buffer.getvalue(), file_name='fig.JPEG', mime='image/jpeg')
+            st.download_button(label='Download Graph', data=buffer.getvalue(), file_name='mca_scores.jpg', mime='image/jpeg')
+        
         def adjust_weights(wgts):
             weights_total = sum(wgts)
             adjusted_weights = [x / weights_total for x in wgts]
@@ -631,7 +634,7 @@ with st.expander("Results", expanded=False):
     except:
         pass
 
-# Step 8. Sensitivity Analysis ####
+# Step 8. Sensitivity Test
 st.subheader("8. Sensitivity Test")
 with st.expander("Sensitivity Test", expanded=False):
     if st.button("Help", key=8):
@@ -678,8 +681,7 @@ with st.expander("Sensitivity Test", expanded=False):
 # File Export to Excel
 st.subheader("File Export")
 st.write("Export session data to Excel to save the results and resume your progress next time.")
-    
-# Download data
+
 buffer = io.BytesIO()
 writer = pd.ExcelWriter(buffer, engine='xlsxwriter')      
         
