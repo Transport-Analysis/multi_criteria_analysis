@@ -1,4 +1,5 @@
 page_header: 'Smarter Solutions: Multi-Criteria Analysis (MCA) Tool'
+
 page_intro: >
   Welcome to the Network Optimisation Framework (NOF): Multi-Criteria Analysis (MCA) Tool developed by the Department of Transport and Main Roads, Queensland. This tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network Optimisation Solutions (NOS) are included within the assessment process by evaluating the overall performance of short-listed options against a series of selected criteria.
 
@@ -21,10 +22,12 @@ project_details_help: |
   A clear project definition will ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement or opportunity.
     
   If a clear project definition has been developed in other documentation, this section can be skipped.
+
 project_details_desc: >
   Before beginning the MCA process a clear project definition is crucial to ensure that appropriate options are short-listed for evaluation and that the criteria selected for assessment reflect the nature of the service requirement. If not already considered elsewhere, please develop a clear project definition by addressing the following questions.
   Is there any complementary infrastructure investment occuring within close proximity?
   What is the key objective the project is being implemented to achieve?
+
 options_help: |
   Options can be included either by entering options custom to your project or selecting from the predefined NOS options.
 
@@ -50,11 +53,14 @@ criteria_desc: >
   Note: Various criteria are mandatory when considering a NOS option in the evaluation process. Additional criteria relating to intersection delay, public transport patronage and freight should be selected where appropriate.
 
 weight_help: |
-  This section allows the users to adjust the weights of each criteria
+  This section allows the user to weight their selected criteria. These weighted criteria will then be used alongside the options scores to calculate the final scores and rankings. When combined, the weights should sum to 1. Care should be taken when developing the criteria weights to avoid bias. It is recommended that the weighting of criteria is facilitated in an open forum to eliminate this potential bias and to ensure that sufficient discussion and documentation can ensue to support decision-making.
+
 ranking_help: |
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
+
 results_desc: > 
   This section provides a summary of the scoring and ranking per criteria and options chosen
+
 results_help: |
   This section outlines the results of the MCA. Results include:
 
@@ -65,6 +71,7 @@ results_help: |
   Note that multiple options will be output in case of equal scoring. Additionally, users can exclude the Base Case by ticking the checkbox..
 
   Note: Options that score near or below the Base Case should be further evaluated to assess the viability of these options to deliver value for money and material improvements in network performance (or meet future service requirements).
+
 sensitivity_test_help: |
   This section allows the user to easily undertake sensitivity testing on the results to identify the impact on the preferred option.
 
