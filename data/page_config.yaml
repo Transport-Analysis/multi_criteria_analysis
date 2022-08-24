@@ -58,6 +58,9 @@ weight_help: |
 ranking_help: |
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
 
+scoring_desc: >
+  xxxxx
+
 results_desc: > 
   This section outlines the results of the MCA process.
 
