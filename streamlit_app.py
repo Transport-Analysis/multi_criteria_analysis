@@ -565,7 +565,7 @@ with st.expander("Results", expanded=False):
             
             overall_rank_df = get_ranks_df(scores_total, options)
             
-            st.write('Summary of Option Rankings and Scoring:')
+            st.write('Summary of final option scores and rank:')
             combined_df = overall_score_df.join(overall_rank_df)
             combined_df
 
@@ -573,7 +573,7 @@ with st.expander("Results", expanded=False):
             st.subheader('Best Option')
             checked = st.checkbox('Exclude Base Case?')
             st.write(
-                f'Overall: {overall_rank_df.index[overall_rank_df["Rank"] == 1][0]}')
+                f'Overall best option: {overall_rank_df.index[overall_rank_df["Rank"] == 1][0]}')
 
             scores_by_criteria = selected_criteria.copy().reset_index(
                 drop=True
