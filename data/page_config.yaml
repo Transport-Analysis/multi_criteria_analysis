@@ -59,16 +59,14 @@ ranking_help: |
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
 
 results_desc: > 
-  This section provides a summary of the scoring and ranking per criteria and options chosen
+  This section outlines the results of the MCA process.
 
 results_help: |
   This section outlines the results of the MCA. Results include:
 
   - A graph showing the options scores for each of the criteria. 
   - A table showing the final scoring and ranking of each option.
-  - A table showing the best option/s overall and each category. 
- 
-  Note that multiple options will be output in case of equal scoring. Additionally, users can exclude the Base Case by ticking the checkbox..
+  - A table showing the best option/s overall and each category. Note that multiple options will be output in case of equal scoring. Additionally, users can exclude the Base Case by ticking the checkbox.
 
   Note: Options that score near or below the Base Case should be further evaluated to assess the viability of these options to deliver value for money and material improvements in network performance (or meet future service requirements).
 
