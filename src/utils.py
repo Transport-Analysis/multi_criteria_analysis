@@ -27,6 +27,7 @@ class PageConfig(BaseModel):
     results_desc: str
     sensitivity_test_help: str
     sensitivity_test_desc: str
+    link_desc: str
     glossary: List[GlossaryConfig]
 
 
