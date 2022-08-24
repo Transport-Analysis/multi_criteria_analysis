@@ -42,7 +42,7 @@ with st.expander(
     ):
 
     if st.button("Help", key=1):
-        st.sidebar.markdown("**Import Help**")
+        st.sidebar.markdown("**File Import**")
         st.sidebar.write(page_config.import_tool_help)
 
     st.write('Import data from previously saved attempts (if applicable)')
@@ -77,7 +77,7 @@ st.subheader("2. Project Details")
 with st.expander("Project Details", expanded=False):
 
     if st.button("Help", key=2):
-        st.sidebar.markdown("**Project Description Help**")
+        st.sidebar.markdown("**Project Details**")
         st.sidebar.write(page_config.project_details_help)
 
     st.write(page_config.project_details_desc)
@@ -157,7 +157,7 @@ st.subheader("3. Define Options")
 with st.expander("Define Options", expanded=False):
 
     if st.button("Help", key=3):
-        st.sidebar.markdown("**Options Help**")
+        st.sidebar.markdown("**Define Options**")
         st.sidebar.write(page_config.options_help)
 
     existing_options = []
@@ -292,7 +292,7 @@ st.subheader("4. Define Criteria")
 with st.expander("Define Criteria", expanded=False):
 
     if st.button("Help", key=4):
-        st.sidebar.markdown("**Criteria Help**")
+        st.sidebar.markdown("**Define Criteria**")
         st.sidebar.write(page_config.criteria_help)
 
     st.write(page_config.criteria_desc)
@@ -396,7 +396,7 @@ st.subheader("5. Criteria Weights")
 with st.expander("Criteria Weights", expanded=False):
     
     if st.button("Help", key=5):
-        st.sidebar.markdown("**Weights Help**")
+        st.sidebar.markdown("**Criteria Weights**")
         st.sidebar.write(page_config.weight_help)
     
     weights = []
@@ -419,11 +419,12 @@ with st.expander("Criteria Weights", expanded=False):
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
 
+        
 # Step 6. Scoring
 st.subheader('6. Scoring')
 with st.expander("Scoring", expanded=False):
     if st.button("Help", key=6):
-        st.sidebar.markdown("**Scoring Help**")
+        st.sidebar.markdown("**Scoring**")
         st.sidebar.write(page_config.ranking_help)
     updated_user_inputs = []   
     num_criteria = len(all_criteria_used_df)
@@ -477,7 +478,7 @@ st.subheader("7. Results")
 with st.expander("Results", expanded=False):
 
     if st.button("Help", key=7):
-        st.sidebar.markdown("**Results Help**")
+        st.sidebar.markdown("**Results**")
         st.sidebar.write(page_config.results_help)
 
     try:
@@ -638,7 +639,7 @@ with st.expander("Results", expanded=False):
 st.subheader("8. Sensitivity Test")
 with st.expander("Sensitivity Test", expanded=False):
     if st.button("Help", key=8):
-        st.sidebar.markdown("**Sensitivity Test Help**")
+        st.sidebar.markdown("**Sensitivity Test**")
         st.sidebar.write(page_config.sensitivity_test_help)
 
     st.write(page_config.sensitivity_test_desc)
