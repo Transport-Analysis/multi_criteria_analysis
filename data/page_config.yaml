@@ -83,7 +83,7 @@ link_desc: >
     Further information regarding MCA and NOS is provided on TMR's website: https://www.tmr.qld.gov.au/business-industry/Business-with-us/Getting-the-most-out-of-existing-infrastructure
   
 glossary:
-  - name: *Base Case*
+  - name: Base Case
     definition: The expected outcomes of a do-minimum situation, assuming the continued operation of the network under current management practices.
   - name: Option
     definition: A possible solution (which could be a NOS) to address the identified problem. A wide range of options should be considered and analysed to determine the preferred option.
