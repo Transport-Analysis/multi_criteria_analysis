@@ -8,16 +8,16 @@ The MCA Tool applies a standardised consideration of NOS relative to large capit
 A requirements.txt file has been provided with this repository to outline the Python libraries required for the MCA tool.
 
 #### 3. Structure of the code and directories
-<Placeholder>
+Placeholder>
 
 #### 4. Excel file (download and upload session)
-<Placeholder>
+Placeholder>
 
 #### 5. Wording and How to make Changes
-<Placeholder>
+Placeholder>
 
 #### 6. Streamlit Information
-<Placeholder; incl hosting>
+Placeholder; incl hosting>
 
 #### 7. Contact Information
 
