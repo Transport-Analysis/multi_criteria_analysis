@@ -503,10 +503,8 @@ with st.expander("Results", expanded=False):
             ]
             plot.set_xticklabels(labels)
             st.pyplot(fig)
-            buffer = io.BytesIO()
-            img.save(buffer, format="JPEG")
-            byte_im = buffer.get_value()
-            st.download_button(label='Download Graph', data=byte_im, file_name='mca_scores.jpg', mime='image/jpeg')
+            buffer = io.BytesIO()            
+            st.download_button(label='Download Graph', data=buffer.getvalue(), file_name='mca_scores.jpg', mime='image/jpeg')
         
         def adjust_weights(wgts):
             weights_total = sum(wgts)
