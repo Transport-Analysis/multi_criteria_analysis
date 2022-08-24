@@ -57,7 +57,9 @@ weight_help: |
 
 scoring_desc: >
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
-
+  Each option should be scored against each criteria using the slider bar and according to the following five point scale.
+  This section will be blank unless at one criterion has been selected and one option input.
+  
 scoring_help: |
   This section allows the user to score each of the options against each of the selected criteria (1= Option achieves a significantly poorer outcome than the Base Case. 5= Option achieves a significantly better outcome than the Base Case).
 
