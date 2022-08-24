@@ -489,7 +489,6 @@ with st.expander("Results", expanded=False):
         st.write('Summary of option scores:')
 
         if not final_user_inputs.empty:
-            pass
             fig, ax1 = plt.subplots(figsize=(20, 8))
             plt.subplots_adjust(bottom=0.2)
             plt.ylim(0, 6)
@@ -507,8 +506,15 @@ with st.expander("Results", expanded=False):
             ]
             plot.set_xticklabels(labels)
             st.pyplot(fig)
-            buffer = io.BytesIO()            
-            st.download_button(label='Download Graph', data=buffer.getvalue(), file_name='mca_scores.png', mime='image/png')
+            img = io.BytesIO()
+            plt.savefig(img, format='png')
+  
+            st.download_button(
+                    label='Download Graph',
+                    data=img,
+                    file_name='mca_scores.png',
+                    mime='image/png'
+                    )
         
         def adjust_weights(wgts):
             weights_total = sum(wgts)
