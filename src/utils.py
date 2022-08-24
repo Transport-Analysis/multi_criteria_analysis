@@ -21,6 +21,7 @@ class PageConfig(BaseModel):
     options_help: str
     criteria_help: str
     criteria_desc: str
+    weight_help: str
     ranking_help: str
     results_help: str
     results_desc: str

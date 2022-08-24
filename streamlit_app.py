@@ -397,7 +397,7 @@ with st.expander("Criteria Weights", expanded=False):
     
     if st.button("Help", key=5):
         st.sidebar.markdown("**Weights Help**")
-        st.sidebar.write(page_config.weights_help)
+        st.sidebar.write(page_config.weight_help)
     
     weights = []
     cols = st.columns(4)
