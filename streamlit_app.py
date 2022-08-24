@@ -483,7 +483,7 @@ with st.expander("Results", expanded=False):
 
     try:
         st.write(page_config.results_desc)
-        st.write('Summary of Unweighted Ratings:')
+        st.write('Summary of option scores:')
 
         if not final_user_inputs.empty:
             pass
@@ -514,7 +514,7 @@ with st.expander("Results", expanded=False):
 
         rank_sums = adjust_weights(weights)
         
-        st.write('Final Weights Used:')
+        st.write('Final Criteria Weights used (balanced to total to 1.0):')
         final_weights = pd.DataFrame(rank_sums).join(
             all_criteria_used_df).rename(columns={0: 'Weight'})
         final_weights = final_weights[
@@ -569,7 +569,7 @@ with st.expander("Results", expanded=False):
             combined_df = overall_score_df.join(overall_rank_df)
             combined_df
 
-            # Best Option ####
+            # Best Option
             st.subheader('Best Option')
             checked = st.checkbox('Exclude Base Case?')
             st.write(
