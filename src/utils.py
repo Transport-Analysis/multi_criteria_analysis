@@ -22,7 +22,8 @@ class PageConfig(BaseModel):
     criteria_help: str
     criteria_desc: str
     weight_help: str
-    ranking_help: str
+    scoring_desc: str
+    scoring_help: str
     results_help: str
     results_desc: str
     sensitivity_test_help: str

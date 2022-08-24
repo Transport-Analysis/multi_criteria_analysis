@@ -425,7 +425,10 @@ st.subheader('6. Scoring')
 with st.expander("Scoring", expanded=False):
     if st.button("Help", key=6):
         st.sidebar.markdown("**Scoring**")
-        st.sidebar.write(page_config.ranking_help)
+        st.sidebar.write(page_config.scoring_help)
+    
+    st.write(page_config.scoring_desc)
+    
     updated_user_inputs = []   
     num_criteria = len(all_criteria_used_df)
     for i, row in all_criteria_used_df.iterrows():
