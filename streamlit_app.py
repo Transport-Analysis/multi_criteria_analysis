@@ -64,7 +64,7 @@ with st.expander(
         )
         st.markdown('You uploaded a file successfully.')
     else:
-        user_inputs = pd.DataFrame(columns=['Criterion', 'Weights'])
+        user_inputs = pd.DataFrame(columns=['Criterion', 'Category', 'Weights'])
         option_description = pd.DataFrame(
             columns=['Option', 'OptionDescription', 'Type']
         )
@@ -312,7 +312,7 @@ with st.expander("Define Criteria", expanded=False):
 
     criteria_df.index = np.arange(1, len(criteria_df) + 1)
     st.dataframe(criteria_df)
-
+    
     new_criteria_df = criteria_df.copy()
     input_criteria_df = new_criteria_df[
         new_criteria_df.Criterion.apply(lambda x: x in user_inputs.index)]
@@ -327,7 +327,8 @@ with st.expander("Define Criteria", expanded=False):
                 new_criteria_df.Criterion,
                 default=[x for x in nos_defaults]
             )
-            
+            additional_criteria_df = pd.DataFrame()
+
         else:
             selected_rows = st.multiselect(
                 'Select criteria:', new_criteria_df.Criterion,
@@ -335,7 +336,13 @@ with st.expander("Define Criteria", expanded=False):
                     x for x in
                     list(set(nos_defaults) | set(input_criteria_df.Criterion))]
             )
+
+            df = user_inputs.merge(input_criteria_df[['Criterion']], on='Criterion', how='left', indicator=True)
+
+            additional_criteria_df = df[df['_merge'] == 'left_only'].copy()[['Criterion', 'Category']]
+
         selected_criteria = new_criteria_df[new_criteria_df['Criterion'].isin(selected_rows)][["Category", "Criterion"]]
+        selected_criteria = pd.concat([selected_criteria, additional_criteria_df])
         
         st.write('Choose your own criteria')
         new_custom_criteria = []
@@ -385,7 +392,7 @@ with st.expander("Define Criteria", expanded=False):
         col11, col22 = st.columns([2, 1])
         for _, row in all_criteria_used_df.iterrows():
             with col11:
-                st.write(row.Criterion)
+                st.write(f'Criterion: {row.Criterion}, Category: {row.Category}')
 
     except:
         pass
@@ -407,7 +414,7 @@ with st.expander("Criteria Weights", expanded=False):
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
-                max_value=1.00, help='Weights do not need to sum to 1.', 
+                max_value=1.00, help='Weights do not need to sum to 1.',
                 key=f'Weight_{row.Criterion}')
             
         else:
@@ -415,7 +422,7 @@ with st.expander("Criteria Weights", expanded=False):
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
-                max_value=1.00, help='Weights do not need to sum to 1.', 
+                max_value=1.00, help='Weights do not need to sum to 1.',
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
 
@@ -431,6 +438,7 @@ with st.expander("Scoring", expanded=False):
     
     updated_user_inputs = []   
     num_criteria = len(all_criteria_used_df)
+
     for i, row in all_criteria_used_df.iterrows():
 
         st.subheader(f'{row.Criterion}')
@@ -474,7 +482,7 @@ with st.expander("Scoring", expanded=False):
 
     output_user_inputs = all_criteria_used_df.merge(
         final_user_inputs, on=['Criterion']
-    ).drop(columns=['Category']).set_index(['Criterion'])
+    ).set_index(['Criterion'])
 
 # Step 7. Results
 st.subheader("7. Results")
