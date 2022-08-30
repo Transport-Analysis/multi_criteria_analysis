@@ -1,3 +1,4 @@
+from audioop import add
 import io
 import matplotlib.pyplot as plt
 from matplotlib.style import use
@@ -340,13 +341,36 @@ with st.expander("Define Criteria", expanded=False):
             df = user_inputs.merge(input_criteria_df[['Criterion']], on='Criterion', how='left', indicator=True)
 
             additional_criteria_df = df[df['_merge'] == 'left_only'].copy()[['Criterion', 'Category']]
+            
+            st.write('Custom Criteria Added:')
+            final_additional_criteria = []
+            i = 1
+            col1, col2 = st.columns(2)
+            for _, row in additional_criteria_df.iterrows():
+                with col1:
+                    added_criteria = st.text_input(
+                        label=f'What is criteria {i}?',
+                        value=row.Criterion,
+                        key =row.Criterion
+                    )
+                with col2:
+                    added_category = st.text_input(
+                        label='Criteria Category',
+                        value=row.Category,
+                        key=f'category_{row.Criterion}'
+                    )
+                i += 1
+                final_additional_criteria.append([row.Criterion, row.Category])
+            
+            if len(final_additional_criteria) > 0:
+                additional_criteria_df = pd.DataFrame(final_additional_criteria, columns=['Criterion', 'Category'])
+
 
         selected_criteria = new_criteria_df[new_criteria_df['Criterion'].isin(selected_rows)][["Category", "Criterion"]]
         selected_criteria = pd.concat([selected_criteria, additional_criteria_df])
         
-        st.write('Choose your own criteria')
+        st.write('Choose Your Own Criteria:')
         new_custom_criteria = []
-        i = 1
         while True:
             col1, col2 = st.columns(2)
             with col1:
