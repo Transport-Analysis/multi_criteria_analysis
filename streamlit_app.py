@@ -340,13 +340,36 @@ with st.expander("Define Criteria", expanded=False):
             df = user_inputs.merge(input_criteria_df[['Criterion']], on='Criterion', how='left', indicator=True)
 
             additional_criteria_df = df[df['_merge'] == 'left_only'].copy()[['Criterion', 'Category']]
+            
+            st.write('Custom Criteria Added:')
+            final_additional_criteria = []
+            i = 1
+            col1, col2 = st.columns(2)
+            for _, row in additional_criteria_df.iterrows():
+                with col1:
+                    added_criteria = st.text_input(
+                        label=f'What is criteria {i}?',
+                        value=row.Criterion,
+                        key =row.Criterion
+                    )
+                with col2:
+                    added_category = st.text_input(
+                        label='Criteria Category',
+                        value=row.Category,
+                        key=f'category_{row.Criterion}'
+                    )
+                i += 1
+                final_additional_criteria.append([row.Criterion, row.Category])
+            
+            if len(final_additional_criteria) > 0:
+                additional_criteria_df = pd.DataFrame(final_additional_criteria, columns=['Criterion', 'Category'])
+
 
         selected_criteria = new_criteria_df[new_criteria_df['Criterion'].isin(selected_rows)][["Category", "Criterion"]]
         selected_criteria = pd.concat([selected_criteria, additional_criteria_df])
         
-        st.write('Choose your own criteria')
+        st.write('Choose Your Own Criteria:')
         new_custom_criteria = []
-        i = 1
         while True:
             col1, col2 = st.columns(2)
             with col1:
@@ -396,7 +419,6 @@ with st.expander("Define Criteria", expanded=False):
 
     except:
         pass
-        
 
 # Step 5. Criteria Weights
 st.subheader("5. Criteria Weights")
@@ -405,7 +427,7 @@ with st.expander("Criteria Weights", expanded=False):
     if st.button("Help", key=5):
         st.sidebar.markdown("**Criteria Weights**")
         st.sidebar.write(page_config.weight_help)
-    
+    crit_weights = []
     weights = []
     cols = st.columns(4)
     for i, row in all_criteria_used_df.iterrows():        
@@ -425,7 +447,9 @@ with st.expander("Criteria Weights", expanded=False):
                 max_value=1.00, help='Weights do not need to sum to 1.',
                 key=f'Weight_{row.Criterion}')
         weights.append(weight)
+        crit_weights.append([row.Criterion, weight])
 
+    weights_df = pd.DataFrame(crit_weights, columns=['Criterion', 'Weight'])
         
 # Step 6. Scoring
 st.subheader('6. Scoring')
@@ -523,92 +547,61 @@ with st.expander("Results", expanded=False):
                     file_name='mca_scores.png',
                     mime='image/png'
                     )
-        
-        def adjust_weights(wgts):
-            weights_total = sum(wgts)
-            adjusted_weights = [x / weights_total for x in wgts]
-            return np.array(adjusted_weights)[:, np.newaxis]
-
-        rank_sums = adjust_weights(weights)
-        
-        st.write('Final Criteria Weights used (balanced to total to 1.0):')
-        final_weights = pd.DataFrame(rank_sums).join(
-            all_criteria_used_df).rename(columns={0: 'Weight'})
-        final_weights = final_weights[
-            ['Category', 'Criterion', 'Weight']].copy().set_index(
-                ['Category', 'Criterion']
-            )
-        final_weights
-        
-        options = options = list(final_user_inputs.columns[1:])
         if len(final_user_inputs.columns) > 2 and len(final_user_inputs) > 1:
-            user_scores = final_user_inputs.iloc[:, 1:].to_numpy()
-            scores = np.c_[np.ones(len(user_scores))+2, user_scores]
+
+            def adjust_weights_df(wgts_df):
+                wgts_df['weights_total'] = wgts_df.Weight.sum()
+                wgts_df['adj_weight'] = wgts_df['Weight'] / wgts_df['weights_total']
+                return wgts_df.drop(columns=['Weight', 'weights_total'])
+
+            adjusted_weights_df = adjust_weights_df(weights_df)
+            raw_df = final_user_inputs.merge(adjusted_weights_df, on=['Criterion'])
             
-            
-            def get_scores_df(srcs, wghts, _options):
-                srcs *= wghts
-                srcs_total = srcs.sum(axis=0)
-                df = pd.DataFrame(srcs_total).transpose()
-                df.columns = ['Base Case'] + _options
-                df['title'] = 'Score'
-                df.set_index('title', inplace=True)
-                df = df.transpose().sort_values(
-                    by='Score', ascending=False
-                )
-                df.style.format(
-                    subset=['Score'], formatter="{:.2}"
-                )
-                return df, srcs_total
-                
-            overall_score_df, scores_total = get_scores_df(
-                scores, rank_sums, options)
-            
-            # Summary of Option Rankings ####
-            
-            def get_ranks_df(_scores_total, _options):
-                tmp = (-_scores_total).argsort()
-                final_ranks = np.empty_like(tmp)
-                final_ranks[tmp] = np.arange(len(scores_total))
-                final_ranks += 1
-                df = pd.DataFrame(final_ranks).transpose()
-                df.columns = ['Base Case'] + _options
-                df['title'] = 'Rank'
-                df.set_index('title', inplace=True)
-                df = df.transpose().sort_values(
-                    by='Rank'
-                )
-                return df
-            
-            overall_rank_df = get_ranks_df(scores_total, options)
-            
+            st.write('Final Criteria Weights used (balanced to total to 1.0):')
+            final_weights_df = all_criteria_used_df.merge(
+                adjusted_weights_df, on=['Criterion']
+            ).drop(columns=['Weights']).rename(columns={'adj_weight': 'Weight'}).set_index(['Category', 'Criterion'])
+            final_weights_df
+
+            # add in Base Case
+            raw_df['Base Case'] = 3
+            option_cols = [x for x in raw_df.columns if x not in ['Criterion', 'adj_weight']]
+
+            def get_weighted_scores(_raw_df, cols):
+                df = _raw_df.copy()
+                for col in cols:
+                    df[col] = df[col] * df['adj_weight']
+                return df.drop(columns=['adj_weight'])
+
+            # get weighted scores
+            wght_scores_df = get_weighted_scores(raw_df, option_cols)
+
+            # get final scores and ranks
             st.write('Summary of final option scores and rank:')
-            combined_df = overall_score_df.join(overall_rank_df)
-            combined_df
+            total_scores_df = wght_scores_df[option_cols].copy()
+            final_df = pd.DataFrame(total_scores_df.sum(axis=0)).rename(columns={0: 'Score'})
+            final_df['Rank'] = final_df['Score'].rank(method='min', ascending=False)
+            final_df = final_df.sort_values(by=['Rank'])
+            final_df
+
+            overall_score_df = final_df[['Score']].copy()
+            overall_rank_df = final_df[['Rank']].copy()
 
             # Best Option
             st.subheader('Best Option')
             checked = st.checkbox('Exclude Base Case?')
             st.write(
-                f'Overall best option: {overall_rank_df.index[overall_rank_df["Rank"] == 1][0]}')
-
-            scores_by_criteria = selected_criteria.copy().reset_index(
-                drop=True
+                f'Overall best option: {final_df.index[final_df["Rank"] == 1][0]}'
             )
 
-            scores_df = pd.DataFrame(scores)
-            scores_df.columns = ['Base Case'] + options
-            scores_by_criteria_df = scores_df.join(
-                scores_by_criteria
-            ).drop(columns=['Criterion'])
+            category_df = all_criteria_used_df[['Criterion', 'Category']].copy().set_index(['Criterion'])
+            category_scores_df = wght_scores_df.set_index(['Criterion']).join(category_df)
 
             if checked:
-                scores_by_criteria_df = scores_by_criteria_df.drop(
-                    columns=['Base Case']
-                )
+                category_scores_df = category_scores_df.drop(columns=['Base Case'])
 
             scores_by_criteria_df = pd.melt(
-                scores_by_criteria_df,
+                category_scores_df,
                 id_vars='Category'
             ).rename(columns={'variable': 'Option'})
 
@@ -642,9 +635,9 @@ with st.expander("Results", expanded=False):
                 values='value'
             )
             output_best_scores_df = output_best_scores_df.join(best_scores_df)
-            
+
             # update weights
-            fw = final_weights.reset_index().set_index(
+            fw = final_weights_df.reset_index().set_index(
                 'Criterion')['Weight'].to_dict()
             output_user_inputs['Weights'] = output_user_inputs.index.to_series(
                 ).map(fw)
@@ -680,18 +673,36 @@ with st.expander("Sensitivity Test", expanded=False):
                     max_value=1.00,
                     value=row.Weights,
                     key=f'adj_weight{row.Criterion}')
-            adj_weights.append(adj_weight)
+            adj_weights.append([row.Criterion, adj_weight])
 
-        # new adjusted weights
-        new_weights = adjust_weights(adj_weights)
-        
-        
-        new_scores_df, new_scores_total = get_scores_df(scores, new_weights, options)
-        new_ranks_df = get_ranks_df(new_scores_total, options)
+        sens_weights_df = pd.DataFrame(adj_weights, columns=['Criterion', 'Weight'])
 
-        st.write('Summary of Option Rankings and Scoring: Sensitivity Test')
-        combined_new_df = new_scores_df.join(new_ranks_df)
-        combined_new_df
+        adj_sens_weights_df = adjust_weights_df(sens_weights_df)
+
+        st.write('Summary of final adjusted sensitivity weights used (balanced to total to 1.0):')
+        adj_sens_df = adj_sens_weights_df.set_index(['Criterion']).rename(columns={'adj_weight': 'Sensitivity Weight'})
+        adj_sens_df
+
+        sens_df = final_user_inputs.merge(adj_sens_weights_df, on=['Criterion'])
+
+        sens_weights_df = all_criteria_used_df.merge(
+            adjusted_weights_df, on=['Criterion']
+        ).drop(columns=['Weights']).rename(columns={'adj_weight': 'Weight'}).set_index(['Category', 'Criterion'])
+
+        # add in Base Case
+        sens_df['Base Case'] = 3
+        option_cols = [x for x in sens_df.columns if x not in ['Criterion', 'adj_weight']]
+
+        # get weighted scores
+        sens_wght_scores_df = get_weighted_scores(sens_df, option_cols)
+
+        # get final scores and ranks
+        st.write('Summary of final option scores and rank: Sensitivity Test')
+        sens_total_scores_df = sens_wght_scores_df[option_cols].copy()
+        sens_final_df = pd.DataFrame(sens_total_scores_df.sum(axis=0)).rename(columns={0: 'Score'})
+        sens_final_df['Rank'] = sens_final_df['Score'].rank(method='min', ascending=False)
+        sens_final_df = sens_final_df.sort_values(by=['Rank'])
+        sens_final_df
         
     except:
         pass
