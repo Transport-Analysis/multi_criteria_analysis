@@ -15,7 +15,7 @@ Data, images and other scripts referred to in this script are in the following s
 - docs: contain an example of the Excel file users can upload on the MCA tool for a test
 
 #### 4. Excel file (download and upload session)
-Placeholder>
+User inputs to the MCA toll web app can be exported by the user with the “Download data to Excel” button located at the bottom of the page. This Excel file can then be uploaded via “File Upload” to resume progress at another time. An example project Excel file (nof-mca-tool__ABC_Road_example.xlsx) has been included in the docs directory.
 
 #### 5. Wording and How to make Changes
 Placeholder>
