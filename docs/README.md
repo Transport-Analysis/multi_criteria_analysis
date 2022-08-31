@@ -1,8 +1,6 @@
 # NOF MCA App Documentation
 #### 1. Code Overview
-This software provides an Multi-Criteria Analysis (MCA) tool has been designed for use in selecting a preferred option, or ranking alternate options, where Network Optimisation Solutions (NOS) are included within assessment processes. 
-
-The MCA Tool applies a standardised consideration of NOS relative to large capital infrastructure, ensuring TMR is delivering the right infrastructure at the right time and aligning with government policy direction for investment as outlined in the Queensland Government's State Infrastructure Plan.
+This software provides a Multi-Criteria Analysis (MCA) tool that has been designed for use in selecting a preferred option, or ranking alternate options, where Network Optimisation Solutions (NOS) are included within assessment processes.
 
 #### 2. Requirements
 A requirements.txt file has been provided with this repository to outline the Python libraries required for the MCA tool.
