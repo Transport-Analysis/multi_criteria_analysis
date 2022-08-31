@@ -1,5 +1,5 @@
 # NOF MCA App Documentation
-#### 1. Code Overview
+#### 1. Code overview
 This software provides a Multi-Criteria Analysis (MCA) tool that has been designed for use in selecting a preferred option, or ranking alternate options, where Network Optimisation Solutions (NOS) are included within assessment processes.
 
 #### 2. Requirements
@@ -17,12 +17,11 @@ Data, images and other scripts referred to in this script are in the following s
 #### 4. Excel file (download and upload session)
 User inputs to the MCA toll web app can be exported by the user with the “Download data to Excel” button located at the bottom of the page. This Excel file can then be uploaded via “File Upload” to resume progress at another time. An example project Excel file (nof-mca-tool__ABC_Road_example.xlsx) has been included in the docs directory.
 
-#### 5. Wording and How to make Changes
-Placeholder>
+#### 5. MCA Tool user interface text editing
+Most of the text in the MCA Tool’s user interface has been abstracted into configuration (config) files located in the ‘data’ folder so that they can be easily edited. These files are in yaml format. 
 
-#### 6. Streamlit Information
-Placeholder; incl hosting>
+#### 6. Further Streamlit information and documentation
+More information relating to Streamlit can be found on the official website. Streamlit documentation can be accessed at https://docs.streamlit.io/
 
-#### 7. Contact Information
-
+#### 7. Contact information
 For more information on this MCA Tool, please contact: Transport_Analysis_Requests@tmr.qld.gov.au.
