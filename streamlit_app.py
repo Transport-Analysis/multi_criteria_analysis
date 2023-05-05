@@ -32,21 +32,20 @@ nof_solutions = utils.import_nof_solutions().NOFsolutions
 # Create empty dataframes
 output_best_scores_df = pd.DataFrame()
 overall_score_df = pd.DataFrame()
-overall_rank_df = pd.DataFrame()  
+overall_rank_df = pd.DataFrame()
 
 # Step 1 - import tool
 st.subheader("1. File Import (Optional)")
 with st.expander(
         'File Import',
         expanded=False
-    ):
-
+):
     if st.button("Help", key=1):
         st.sidebar.markdown("**File Import**")
         st.sidebar.write(page_config.import_tool_help)
 
     st.write('Import data from previously saved attempts (if applicable)')
-    
+
     uploaded_project = st.file_uploader(
         'Upload Saved Excel Project (Files downloaded from this website only)',
         type='xlsx'
@@ -75,7 +74,6 @@ with st.expander(
 # Step 2 - Project Details
 st.subheader("2. Project Details")
 with st.expander("Project Details", expanded=False):
-
     if st.button("Help", key=2):
         st.sidebar.markdown("**Project Details**")
         st.sidebar.write(page_config.project_details_help)
@@ -89,12 +87,12 @@ with st.expander("Project Details", expanded=False):
 
         key_objs = project_description[
             project_description['Category'] == 'Key Objectives'
-        ].copy().reset_index(drop=True)
+            ].copy().reset_index(drop=True)
 
         default_list = key_objs.loc[0, 'Responses'].split(',')
 
         s = key_objs.loc[0, 'Options']
-        options_list = s.replace('[', '').replace(']','').replace("'","").split(',')
+        options_list = s.replace('[', '').replace(']', '').replace("'", "").split(',')
         options = [o.strip() for o in options_list]
 
         for _, row in project_description.iterrows():
@@ -155,7 +153,6 @@ with st.expander("Project Details", expanded=False):
 # Step 3. Define Options
 st.subheader("3. Define Options")
 with st.expander("Define Options", expanded=False):
-
     if st.button("Help", key=3):
         st.sidebar.markdown("**Define Options**")
         st.sidebar.write(page_config.options_help)
@@ -167,7 +164,7 @@ with st.expander("Define Options", expanded=False):
     if not option_description.empty:
 
         st.write('Uploaded User Options')
- 
+
         i = 1
         for _, row in option_description.iterrows():
 
@@ -210,13 +207,13 @@ with st.expander("Define Options", expanded=False):
                 f'What is option {i}?', value='', help='Add new option', key=f'new_option{i}')
         with col2:
             new_option_comment = st.text_input(
-               'Option description',
+                'Option description',
                 value='', help='Add new option comment',
                 key=f'new_option_comment{i}'
             )
 
         new_option_type = 'User defined option'
-        if len(new_option) <1:
+        if len(new_option) < 1:
             break
         else:
             new_options.append(
@@ -290,7 +287,6 @@ with st.expander("Define Options", expanded=False):
 # Step 4. Define Criteria
 st.subheader("4. Define Criteria")
 with st.expander("Define Criteria", expanded=False):
-
     if st.button("Help", key=4):
         st.sidebar.markdown("**Define Criteria**")
         st.sidebar.write(page_config.criteria_help)
@@ -312,7 +308,7 @@ with st.expander("Define Criteria", expanded=False):
 
     criteria_df.index = np.arange(1, len(criteria_df) + 1)
     st.dataframe(criteria_df)
-    
+
     new_criteria_df = criteria_df.copy()
     input_criteria_df = new_criteria_df[
         new_criteria_df.Criterion.apply(lambda x: x in user_inputs.index)]
@@ -340,7 +336,7 @@ with st.expander("Define Criteria", expanded=False):
             df = user_inputs.merge(input_criteria_df[['Criterion']], on='Criterion', how='left', indicator=True)
 
             additional_criteria_df = df[df['_merge'] == 'left_only'].copy()[['Criterion', 'Category']]
-            
+
             st.write('Custom Criteria Added:')
             final_additional_criteria = []
             i = 1
@@ -350,7 +346,7 @@ with st.expander("Define Criteria", expanded=False):
                     added_criteria = st.text_input(
                         label=f'What is criteria {i}?',
                         value=row.Criterion,
-                        key =row.Criterion
+                        key=row.Criterion
                     )
                 with col2:
                     added_category = st.text_input(
@@ -360,14 +356,13 @@ with st.expander("Define Criteria", expanded=False):
                     )
                 i += 1
                 final_additional_criteria.append([row.Criterion, row.Category])
-            
+
             if len(final_additional_criteria) > 0:
                 additional_criteria_df = pd.DataFrame(final_additional_criteria, columns=['Criterion', 'Category'])
 
-
         selected_criteria = new_criteria_df[new_criteria_df['Criterion'].isin(selected_rows)][["Category", "Criterion"]]
         selected_criteria = pd.concat([selected_criteria, additional_criteria_df])
-        
+
         st.write('Choose Your Own Criteria:')
         new_custom_criteria = []
         while True:
@@ -403,13 +398,13 @@ with st.expander("Define Criteria", expanded=False):
         all_criteria_used_df = all_criteria_used_df[
             all_criteria_used_df['Criterion'] != 'Add new criteria'].copy(
         ).reset_index(drop=True)
-        
+
         if not user_inputs.empty:
             cri_weights = user_inputs['Weights'].to_dict()
             all_criteria_used_df['Weights'] = all_criteria_used_df['Criterion'].map(cri_weights).astype(float)
-        else:  
+        else:
             all_criteria_used_df['Weights'] = 0.01
-            all_criteria_used_df['Weights'] = all_criteria_used_df['Weights'].astype(float)            
+            all_criteria_used_df['Weights'] = all_criteria_used_df['Weights'].astype(float)
 
         st.write('##### Selected Criteria')
         col11, col22 = st.columns([2, 1])
@@ -423,24 +418,23 @@ with st.expander("Define Criteria", expanded=False):
 # Step 5. Criteria Weights
 st.subheader("5. Criteria Weights")
 with st.expander("Criteria Weights", expanded=False):
-    
     if st.button("Help", key=5):
         st.sidebar.markdown("**Criteria Weights**")
         st.sidebar.write(page_config.weight_help)
     crit_weights = []
     weights = []
     cols = st.columns(4)
-    for i, row in all_criteria_used_df.iterrows():        
-        if i<4:
+    for i, row in all_criteria_used_df.iterrows():
+        if i < 4:
             weight = cols[i].number_input(
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
                 max_value=1.00, help='Weights do not need to sum to 1.',
                 key=f'Weight_{row.Criterion}')
-            
+
         else:
-            weight = cols[i-4].number_input(
+            weight = cols[i - 4].number_input(
                 label=f'Criteria Weight - {row.Criterion}',
                 value=row.Weights,
                 min_value=0.01,
@@ -450,26 +444,26 @@ with st.expander("Criteria Weights", expanded=False):
         crit_weights.append([row.Criterion, weight])
 
     weights_df = pd.DataFrame(crit_weights, columns=['Criterion', 'Weight'])
-        
+
 # Step 6. Scoring
 st.subheader('6. Scoring')
 with st.expander("Scoring", expanded=False):
     if st.button("Help", key=6):
         st.sidebar.markdown("**Scoring**")
         st.sidebar.write(page_config.scoring_help)
-    
+
     st.write(page_config.scoring_desc)
-    
-    updated_user_inputs = []   
+
+    updated_user_inputs = []
     num_criteria = len(all_criteria_used_df)
 
     for i, row in all_criteria_used_df.iterrows():
 
         st.subheader(f'{row.Criterion}')
-            
+
         num_options = max(1, len(output_option_description))
         num_rows_needed = int((num_options / 3))
-        
+
         i = 1
         cols = st.columns(num_options)
         for _, option in output_option_description.iterrows():
@@ -478,12 +472,12 @@ with st.expander("Scoring", expanded=False):
             if option.Option in user_inputs.columns and row.Criterion in user_inputs.index:
                 key_value = user_inputs[
                     user_inputs.index == row.Criterion].loc[
-                        row.Criterion, option.Option
-                    ]
+                    row.Criterion, option.Option
+                ]
             else:
                 key_value = 3
 
-            result = cols[i-1].select_slider(
+            result = cols[i - 1].select_slider(
                 f'Score - option: {option.Option}',
                 range(1, 6),
                 key=key,
@@ -492,7 +486,7 @@ with st.expander("Scoring", expanded=False):
 
             updated_user_inputs.append([row.Criterion, option.Option, result])
             i += 1
-    
+
     updated_user_inputs = pd.DataFrame(
         updated_user_inputs,
         columns=['Criterion', 'Option', 'Value']
@@ -511,7 +505,6 @@ with st.expander("Scoring", expanded=False):
 # Step 7. Results
 st.subheader("7. Results")
 with st.expander("Results", expanded=False):
-
     if st.button("Help", key=7):
         st.sidebar.markdown("**Results**")
         st.sidebar.write(page_config.results_help)
@@ -540,13 +533,13 @@ with st.expander("Results", expanded=False):
             st.pyplot(fig)
             img = io.BytesIO()
             plt.savefig(img, format='png')
-  
+
             st.download_button(
-                    label='Download Graph',
-                    data=img,
-                    file_name='mca_scores.png',
-                    mime='image/png'
-                    )
+                label='Download Graph',
+                data=img,
+                file_name='mca_scores.png',
+                mime='image/png'
+            )
         if len(final_user_inputs.columns) > 2 and len(final_user_inputs) > 1:
 
             def adjust_weights_df(wgts_df):
@@ -554,9 +547,10 @@ with st.expander("Results", expanded=False):
                 wgts_df['adj_weight'] = wgts_df['Weight'] / wgts_df['weights_total']
                 return wgts_df.drop(columns=['Weight', 'weights_total'])
 
+
             adjusted_weights_df = adjust_weights_df(weights_df)
             raw_df = final_user_inputs.merge(adjusted_weights_df, on=['Criterion'])
-            
+
             st.write('Final Criteria Weights used (balanced to total to 1.0):')
             final_weights_df = all_criteria_used_df.merge(
                 adjusted_weights_df, on=['Criterion']
@@ -567,11 +561,13 @@ with st.expander("Results", expanded=False):
             raw_df['Base Case'] = 3
             option_cols = [x for x in raw_df.columns if x not in ['Criterion', 'adj_weight']]
 
+
             def get_weighted_scores(_raw_df, cols):
                 df = _raw_df.copy()
                 for col in cols:
                     df[col] = df[col] * df['adj_weight']
                 return df.drop(columns=['adj_weight'])
+
 
             # get weighted scores
             wght_scores_df = get_weighted_scores(raw_df, option_cols)
@@ -609,8 +605,8 @@ with st.expander("Results", expanded=False):
                 ['Category', 'Option']
             ).agg({'value': 'sum'}
                   ).reset_index().sort_values(
-                      by=['Category', 'value'],
-                      ascending=False
+                by=['Category', 'value'],
+                ascending=False
             )
 
             max_scores_by_criteria_df = scores_by_criteria_df.groupby(
@@ -640,7 +636,7 @@ with st.expander("Results", expanded=False):
             fw = final_weights_df.reset_index().set_index(
                 'Criterion')['Weight'].to_dict()
             output_user_inputs['Weights'] = output_user_inputs.index.to_series(
-                ).map(fw)
+            ).map(fw)
 
     except:
         pass
@@ -655,10 +651,10 @@ with st.expander("Sensitivity Test", expanded=False):
     st.write(page_config.sensitivity_test_desc)
     adj_weights = []
     try:
-        
+
         cols = st.columns(4)
         for i, row in output_user_inputs.reset_index().iterrows():
-            if i<4:
+            if i < 4:
                 adj_weight = cols[i].number_input(
                     label=f'Adjusted Weight for {row.Criterion}',
                     min_value=0.01,
@@ -667,7 +663,7 @@ with st.expander("Sensitivity Test", expanded=False):
                     key=f'adj_weight{row.Criterion}'
                 )
             else:
-                adj_weight = cols[i-4].number_input(
+                adj_weight = cols[i - 4].number_input(
                     label=f'Adjusted Weight for {row.Criterion}',
                     min_value=0.01,
                     max_value=1.00,
@@ -703,7 +699,7 @@ with st.expander("Sensitivity Test", expanded=False):
         sens_final_df['Rank'] = sens_final_df['Score'].rank(method='min', ascending=False)
         sens_final_df = sens_final_df.sort_values(by=['Rank'])
         sens_final_df
-        
+
     except:
         pass
 
@@ -712,25 +708,26 @@ st.subheader("File Export")
 st.write("Export session data to Excel to save the results and resume your progress next time.")
 
 buffer = io.BytesIO()
-writer = pd.ExcelWriter(buffer, engine='xlsxwriter')      
-        
+writer = pd.ExcelWriter(buffer, engine='xlsxwriter')
+
 dfs_to_export = {
-                'project_description': output_project_description,
-                'option_description': output_option_description,
-                'scores_by_category': output_best_scores_df,
-                'overall_scores': overall_score_df,
-                'overall_rank': overall_rank_df,
-                'user_inputs': output_user_inputs
+    'project_description': output_project_description,
+    'option_description': output_option_description,
+    'scores_by_category': output_best_scores_df,
+    'overall_scores': overall_score_df,
+    'overall_rank': overall_rank_df,
+    'user_inputs': output_user_inputs
 }
 
 for sheet_name, df in dfs_to_export.items():
     df.to_excel(writer, sheet_name)
-            
-writer.save()
+
+# writer.save()
+writer.close()
 
 st.download_button(
-        label='Download data to Excel',
-        data=buffer,
-        file_name="nof-mca-tool.xlsx",
-        mime="application/vnd.ms-excel"
- )
+    label='Download data to Excel',
+    data=buffer,
+    file_name="nof-mca-tool.xlsx",
+    mime="application/vnd.ms-excel"
+)

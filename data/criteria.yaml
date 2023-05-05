@@ -169,3 +169,13 @@ CriteriaList:
     Indicator: Change in the economic and social impact of the transport system on regional development
     Measure: Descriptive
     NOS_mandatory: False
+  - Category: Sustainability
+    Criterion: Mitigation (Carbon abatement)
+    Indicator: Ability of the proposal to contribute to carbon abatement targets (excluding vehicle emissions)
+    Measure: Descriptive
+    NOS_mandatory: False
+  - Category: Sustainability
+    Criterion: Climate Resilience
+    Indicator: Ability of the proposal to maintain connectivity requirements and resist, absorb and recover in response to shocks and stresses related to climate change.
+    Measure: Descriptive
+    NOS_mandatory: False
