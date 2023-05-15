@@ -8,9 +8,117 @@ import streamlit as st
 import textwrap
 
 from src import utils
+from src import util
+
+import colorsys
+
+import fragments
+from util import ThemeColor
+
 
 # set up streamlit page
 page_config = utils.setup_page()
+
+preset_colors: list[tuple[str, ThemeColor]] = [
+    ("Default light", ThemeColor(
+            primaryColor="#17258C",
+            backgroundColor="#ffffff",
+            secondaryBackgroundColor="#f0f2f6",
+            textColor="#31333F",
+        )),
+    ("Default dark", ThemeColor(
+            primaryColor="#FF8511",
+            backgroundColor="#0e1117",
+            secondaryBackgroundColor="#262730",
+            textColor="#fafafa",
+    ))
+]
+
+theme_from_initial_config = util.get_config_theme_color()
+if theme_from_initial_config:
+    preset_colors.append(("From the config", theme_from_initial_config))
+
+default_color = preset_colors[0][1]
+
+
+def sync_rgb_to_hls(key: str):
+    # HLS states are necessary for the HLS sliders.
+    rgb = util.parse_hex(st.session_state[key])
+    hls = colorsys.rgb_to_hls(rgb[0], rgb[1], rgb[2])
+    st.session_state[f"{key}H"] = round(hls[0] * 360)
+    st.session_state[f"{key}L"] = round(hls[1] * 100)
+    st.session_state[f"{key}S"] = round(hls[2] * 100)
+
+
+def sync_hls_to_rgb(key: str):
+    h = st.session_state[f"{key}H"]
+    l = st.session_state[f"{key}L"]
+    s = st.session_state[f"{key}S"]
+    r, g, b = colorsys.hls_to_rgb(h / 360, l / 100, s / 100)
+    st.session_state[key] = f"#{round(r * 255):02x}{round(g * 255):02x}{round(b * 255):02x}"
+
+
+def set_color(key: str, color: str):
+    st.session_state[key] = color
+    sync_rgb_to_hls(key)
+
+
+if 'preset_color' not in st.session_state or 'backgroundColor' not in st.session_state or 'secondaryBackgroundColor' not in st.session_state or 'textColor' not in st.session_state:
+    set_color('primaryColor', default_color.primaryColor)
+    set_color('backgroundColor', default_color.backgroundColor)
+    set_color('secondaryBackgroundColor', default_color.secondaryBackgroundColor)
+    set_color('textColor', default_color.textColor)
+
+
+def on_preset_color_selected():
+    _, color = preset_colors[st.session_state.preset_color]
+    set_color('primaryColor', color.primaryColor)
+    set_color('backgroundColor', color.backgroundColor)
+    set_color('secondaryBackgroundColor', color.secondaryBackgroundColor)
+    set_color('textColor', color.textColor)
+
+
+st.selectbox("Select color theme", key="preset_color", options=range(len(preset_colors)), format_func=lambda idx: preset_colors[idx][0], on_change=on_preset_color_selected)
+
+
+
+def color_picker(label: str, key: str, default_color: str, l_only: bool) -> None:
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        color = st.color_picker(label, key=key, on_change=sync_rgb_to_hls, kwargs={"key": key})
+    with col2:
+        r,g,b = util.parse_hex(default_color)
+        h,l,s = colorsys.rgb_to_hls(r,g,b)
+        if l_only:
+            if f"{key}H" not in st.session_state:
+                st.session_state[f"{key}H"] = round(h * 360)
+        else:
+            st.slider(f"H for {label}", key=f"{key}H", min_value=0, max_value=360, value=round(h * 360), format="%d°", label_visibility="collapsed", on_change=sync_hls_to_rgb, kwargs={"key": key})
+
+        st.slider(f"L for {label}", key=f"{key}L", min_value=0, max_value=100, value=round(l * 100), format="%d%%", label_visibility="collapsed", on_change=sync_hls_to_rgb, kwargs={"key": key})
+
+        if l_only:
+            if f"{key}S" not in st.session_state:
+                st.session_state[f"{key}S"] = round(s * 100)
+        else:
+            st.slider(f"S for {label}", key=f"{key}S", min_value=0, max_value=100, value=round(s * 100), format="%d%%", label_visibility="collapsed", on_change=sync_hls_to_rgb, kwargs={"key": key})
+
+    return color
+
+
+def reconcile_theme_config():
+    keys = ['primaryColor', 'backgroundColor', 'secondaryBackgroundColor', 'textColor']
+    has_changed = False
+    for key in keys:
+        if st._config.get_option(f'theme.{key}') != st.session_state[key]:
+            st._config.set_option(f'theme.{key}', st.session_state[key])
+            has_changed = True
+    if has_changed:
+        st.experimental_rerun()
+
+reconcile_theme_config()
+
+
 
 # add top banner
 with st.container():
@@ -34,6 +142,7 @@ if st.button("Glossary", key=0):
     for glossary_item in page_config.glossary:
         st.sidebar.write(f'{glossary_item.name}: {glossary_item.definition}')
     st.sidebar.write(page_config.link_desc)
+
 # import main image for page
 utils.import_page_image()
 
