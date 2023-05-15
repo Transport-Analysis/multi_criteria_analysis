@@ -12,9 +12,22 @@ from src import utils
 # set up streamlit page
 page_config = utils.setup_page()
 
+# add top banner
+with st.container():
+    st.image(r'docs\TMR08986.png', use_column_width=True)
+
 # create header
 st.header(page_config.page_header)
 st.write(page_config.page_intro)
+
+# Add link to Excel MCA tool
+url_mca_excel = 'https://www.tmr.qld.gov.au/_/media/busind/businesswithus/existing-infrastructure/nof-mca-tool.xlsm?sc_lang=en&hash=AD085C0626895FFEB4CB972AEFD1ED45'
+url_mca_excel_text = 'The original excel based version of the MCA Tool is available at the following link, if you would prefer to use:'
+st.write(url_mca_excel_text)
+st.markdown(f'<a href="{url_mca_excel}">TMR\'s Excel MCA tool</a>', unsafe_allow_html=True)
+
+url_mca_excel_guide = 'https://www.tmr.qld.gov.au/_/media/busind/businesswithus/existing-infrastructure/smarter-solutions-mca-tool-guide.pdf?sc_lang=en&hash=1323C16D8351B4B46616D39E5A765168'
+st.markdown(f'<a href="{url_mca_excel_guide}">TMR\'s Excel MCA tool - User Guide</a>', unsafe_allow_html=True)
 
 if st.button("Glossary", key=0):
     st.sidebar.subheader("Glossary")
